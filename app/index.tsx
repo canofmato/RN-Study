@@ -1,4 +1,5 @@
-import { Image, Text, View } from "react-native";
+import { Link } from "expo-router";
+import { Image, Pressable, Text, View } from "react-native";
 
 export default function HomeScreen() {
   return (
@@ -90,7 +91,12 @@ export default function HomeScreen() {
       {/* back card */}
       <View className="w-[390px] h-[230px] bg-primary rounded-[20px] px-[22px] py-[34px] items-center justify-center">
         <View className="flex-row gap-10 p-5 items-center justify-center">
-          <Text className="text-label text-black">MORE(IG)</Text>
+          <Link href={"/more" as any} asChild>
+            <Pressable>
+              <Text className="text-label text-black">MORE(IG)</Text>
+            </Pressable>
+          </Link>
+
           <Image
             source={require("../assets/images/Arrow-right.png")}
             className="w-3 h-3 object-contain"
