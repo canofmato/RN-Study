@@ -14,12 +14,12 @@ export default function HomeScreen() {
                 className="w-5 h-5 object-contain"
               />
               <View className="w-10 h-4 gap-[10px] border border-black items-center justify-center">
-                <Text className="text-label text-black">CARD</Text>
+                <Text className="text-body text-black">CARD</Text>
               </View>
             </View>
 
             <View>
-              <Text className="text-label text-black">(朴多璘) 박다인</Text>
+              <Text className="text-body text-black">(朴多璘) 박다인</Text>
             </View>
           </View>
 
@@ -93,7 +93,7 @@ export default function HomeScreen() {
         <View className="flex-row gap-10 p-5 items-center justify-center">
           <Link href={"/more" as any} asChild>
             <Pressable>
-              <Text className="text-label text-black">MORE(IG)</Text>
+              <Text className="text-body text-black">MORE(IG)</Text>
             </Pressable>
           </Link>
 

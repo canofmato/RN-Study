@@ -1,5 +1,5 @@
 import { useRouter } from "expo-router";
-import { Image, ScrollView, Text, View } from "react-native";
+import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
 
 export default function MoreScreen() {
   const router = useRouter();
@@ -8,16 +8,21 @@ export default function MoreScreen() {
     <View className="flex-1 flex-col py-[50px] bg-white">
       {/* header */}
       <View className="flex-row px-3 py-4 items-center justify-between border-b border-b-gray">
-        <View className="w-[30px] h-[30px]">
+        <TouchableOpacity
+          onPress={() => router.back()} // 2. 뒤로 가기 실행
+          activeOpacity={0.7}
+        >
           <Image
             source={require("../assets/images/Chevron-left.png")}
             className="w-[30px] h-[30px] object-contain"
           />
-        </View>
+        </TouchableOpacity>
 
         <View className="items-center">
-          <Text className="text-h3 text-black font-bold text-black">Posts</Text>
-          <Text className="text-label text-black">blackcatsaysmeow</Text>
+          <Text className="text-heading3 text-black font-bold text-black">
+            Posts
+          </Text>
+          <Text className="text-body text-black">blackcatsaysmeow</Text>
         </View>
 
         <View className="w-[30px] h-[30px]" />
@@ -33,13 +38,13 @@ export default function MoreScreen() {
               className="w-10 h-10 rounded-full"
             />
             <View className="flex-col gap-1 px-1">
-              <Text className="text-label font-semibold">blackcatsaysmeow</Text>
+              <Text className="text-body font-semibold">blackcatsaysmeow</Text>
               <View className="flex-row gap-1">
                 <Image
                   source={require("../assets/images/Music.png")}
                   className="w-[15px] h-[15px]"
                 />
-                <Text className="text-label text-black">
+                <Text className="text-body text-black">
                   Hearts2Hearts ﹒ RUDE!
                 </Text>
               </View>
@@ -103,12 +108,12 @@ export default function MoreScreen() {
       {/* comment */}
       <View className="flex-col px-3 items-start">
         <View className="flex-row gap-2 py-[6px]">
-          <Text className="text-label font-bold text-black">
+          <Text className="text-body font-bold text-black">
             blackcatsaysmeow
           </Text>
-          <Text className="text-label text-black">post message</Text>
+          <Text className="text-body text-black">post message</Text>
         </View>
-        <Text className="text-label text-gray-500">March 25</Text>
+        <Text className="text-body text-gray-500">March 25</Text>
       </View>
     </View>
   );
