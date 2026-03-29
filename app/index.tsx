@@ -7,7 +7,9 @@ export default function HomeScreen() {
   return (
     <View style={styles.screen}>
       <Header />
-      <Body />
+      <View style={styles.bodyWrap}>
+        <Body />
+      </View>
       <Footer />
     </View>
   );
@@ -17,5 +19,8 @@ const styles = StyleSheet.create({
   screen: {
     flex: 1,
     backgroundColor: '#FFFFFF',
+  },
+  bodyWrap: {
+    flex: 1,
   },
 });
