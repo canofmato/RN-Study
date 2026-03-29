@@ -1,4 +1,5 @@
-import { Image, StyleSheet, Text, View, ScrollView } from 'react-native';
+import { Image, StyleSheet, Text, View, ScrollView, Pressable } from 'react-native';
+import { router } from 'expo-router';
 
 export default function ProfileScreen() {
   return (
@@ -10,7 +11,7 @@ export default function ProfileScreen() {
         />
         <View style={styles.stats}>
           <View style={styles.statBox}>
-            <Text style={styles.statNumber}>1</Text>
+            <Text style={styles.statNumber}>3</Text>
             <Text>게시물</Text>
           </View>
           <View style={styles.statBox}>
@@ -30,10 +31,27 @@ export default function ProfileScreen() {
       </View>
 
       <View style={styles.grid}>
-        <Image
-        source={require('@/assets/images/post.png')}
-        style={styles.gridImage}
-        />
+        <Pressable style={styles.gridItem} onPress={() => router.push('/post')}>
+          <Image
+            source={require('@/assets/images/post.png')}
+            style={styles.gridImage}
+            resizeMode="contain"
+          />
+        </Pressable>
+        <Pressable style={styles.gridItem} onPress={() => router.push('/post')}>
+          <Image
+            source={require('@/assets/images/post.png')}
+            style={styles.gridImage}
+            resizeMode="contain"
+          />
+        </Pressable>
+        <Pressable style={styles.gridItem} onPress={() => router.push('/post')}>
+          <Image
+            source={require('@/assets/images/post.png')}
+            style={styles.gridImage}
+            resizeMode="contain"
+          />
+        </Pressable>
       </View>
     </ScrollView>
 
@@ -66,9 +84,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-around',
   },
+
   statBox: {
     alignItems: 'center',
   },
+
   statNumber: {
     fontWeight: 'bold',
     fontSize: 18,
@@ -76,7 +96,7 @@ const styles = StyleSheet.create({
   
   bioSection: {
     paddingHorizontal: 20,
-    marginBottom: 20,
+    marginBottom: 0,
   },
 
   name: {
@@ -93,10 +113,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
+    paddingHorizontal: 4,
+    marginTop: -140,
   },
-  gridImage: {
+
+  gridItem: {
     width: '32%',
-    aspectRatio: 1,
-    marginBottom: 5,
+},
+
+  gridImage: {
+    width: '100%',
   },
 });
