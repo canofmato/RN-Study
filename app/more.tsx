@@ -1,5 +1,13 @@
 import { useRouter } from "expo-router";
 import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import Bookmark from "../assets/images/Bookmark.svg";
+import ChatBubble from "../assets/images/chat_bubble.svg";
+import ChevronLeft from "../assets/images/Chevron-left.svg";
+import Heart from "../assets/images/Heart.svg";
+import More from "../assets/images/More-horizontal.svg";
+import Music from "../assets/images/Music.svg";
+import Profile from "../assets/images/profile.svg";
+import Send from "../assets/images/Send.svg";
 
 export default function MoreScreen() {
   const router = useRouter();
@@ -12,16 +20,11 @@ export default function MoreScreen() {
           onPress={() => router.back()} // 2. 뒤로 가기 실행
           activeOpacity={0.7}
         >
-          <Image
-            source={require("../assets/images/Chevron-left.png")}
-            className="w-[30px] h-[30px] object-contain"
-          />
+          <ChevronLeft width={30} height={30} />
         </TouchableOpacity>
 
         <View className="items-center">
-          <Text className="text-heading3 text-black font-bold text-black">
-            Posts
-          </Text>
+          <Text className="text-heading3 text-black font-bold">Posts</Text>
           <Text className="text-body text-black">blackcatsaysmeow</Text>
         </View>
 
@@ -33,27 +36,21 @@ export default function MoreScreen() {
         {/* profile */}
         <View className="flex-row px-3 py-[10px] items-center justify-between">
           <View className="flex-row gap-2">
-            <Image
-              source={require("../assets/images/profile.jpg")}
-              className="w-10 h-10 rounded-full"
-            />
+            <View className="w-10 h-10 rounded-full overflow-hidden">
+              <Profile width={40} height={40} />
+            </View>
+
             <View className="flex-col gap-1 px-1">
               <Text className="text-body font-semibold">blackcatsaysmeow</Text>
               <View className="flex-row gap-1">
-                <Image
-                  source={require("../assets/images/Music.png")}
-                  className="w-[15px] h-[15px]"
-                />
+                <Music width={15} height={15} />
                 <Text className="text-body text-black">
                   Hearts2Hearts ﹒ RUDE!
                 </Text>
               </View>
             </View>
           </View>
-          <Image
-            source={require("../assets/images/More-horizontal.png")}
-            className="w-5 h-5"
-          />
+          <More width={20} height={20} />
         </View>
 
         {/* feed */}
@@ -84,24 +81,12 @@ export default function MoreScreen() {
         {/* reaction */}
         <View className="flex-row px-3 py-4 items-center justify-between">
           <View className="flex-row gap-4">
-            <Image
-              source={require("../assets/images/Heart.png")}
-              className="w-5 h-5"
-            />
-            <Image
-              source={require("../assets/images/chat_bubble.png")}
-              className="w-5 h-5"
-            />
-            <Image
-              source={require("../assets/images/Send.png")}
-              className="w-5 h-5"
-            />
+            <Heart width={20} height={20} />
+            <ChatBubble width={20} height={20} />
+            <Send width={20} height={20} />
           </View>
 
-          <Image
-            source={require("../assets/images/Bookmark.png")}
-            className="w-5 h-5"
-          />
+          <Bookmark width={20} height={20} />
         </View>
       </View>
 

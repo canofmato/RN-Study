@@ -1,5 +1,11 @@
 import { Link } from "expo-router";
-import { Image, Pressable, Text, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
+import ArrowRight from "../assets/images/Arrow-right.svg";
+import Github from "../assets/images/Github.svg";
+import Info from "../assets/images/Info.svg";
+import Photo from "../assets/images/Photo.svg";
+import QRcode from "../assets/images/QRcode.svg";
+import Velog from "../assets/images/Velog.svg";
 
 export default function HomeScreen() {
   return (
@@ -9,10 +15,7 @@ export default function HomeScreen() {
         <View className="w-[348px] flex-col gap-1">
           <View className="flex-row gap-50 items-center justify-between">
             <View className="flex-row gap-1 items-center">
-              <Image
-                source={require("../assets/images/Info.png")}
-                className="w-5 h-5 object-contain"
-              />
+              <Info width={20} height={20} />
               <View className="w-10 h-4 gap-[10px] border border-black items-center justify-center">
                 <Text className="text-body text-black">CARD</Text>
               </View>
@@ -29,23 +32,14 @@ export default function HomeScreen() {
         <View className="w-[348px] flex-row px-[5px] justify-between">
           <View className="h-25 flex-col gap-1">
             <View className="flex-row gap-2">
-              <Image
-                source={require("../assets/images/Github.png")}
-                className="w-5 h-5 object-contain"
-              />
-              <Image
-                source={require("../assets/images/Velog.png")}
-                className="w-5 h-5 object-contain"
-              />
+              <Github width={20} height={20} />
+              <Velog width={20} height={20} />
             </View>
             <View className="flex-col gap-1">
               <Text className="text-caption text-black">
                 SIGNATURE{"\n"}PHOTO
               </Text>
-              <Image
-                source={require("../assets/images/Photo.png")}
-                className="w-[43px] h-[43px] object-contain"
-              />
+              <Photo width={43} height={43} />
             </View>
           </View>
 
@@ -97,14 +91,8 @@ export default function HomeScreen() {
             </Pressable>
           </Link>
 
-          <Image
-            source={require("../assets/images/Arrow-right.png")}
-            className="w-3 h-3 object-contain"
-          />
-          <Image
-            source={require("../assets/images/QRcode.png")}
-            className="w-[70px] h-[70px] object-contain"
-          />
+          <ArrowRight width={12} height={12} />
+          <QRcode width={70} height={70} />
         </View>
       </View>
     </View>
