@@ -11,6 +11,7 @@ import {
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
+import "./global.css";
 
 // 폰트 로딩 전까지 화면 유지
 SplashScreen.preventAutoHideAsync();

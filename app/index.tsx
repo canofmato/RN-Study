@@ -1,76 +1,83 @@
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Link } from "expo-router";
+import { Image, Pressable, Text, View } from "react-native";
 
 export default function HomeScreen() {
   return (
-    <View style={styles.container}>
+    <View className="flex-1 flex-col gap-6 bg-gray items-center justify-center">
       {/*front card  */}
-      <View style={styles.frontcard}>
-        <View style={styles.name}>
-          <View style={styles.name_info}>
-            <View style={styles.name_info_logo}>
+      <View className="w-[390px] h-[230px] bg-primary rounded-[20px] flex-col py-5 items-center justify-center">
+        <View className="w-[348px] flex-col gap-1">
+          <View className="flex-row gap-50 items-center justify-between">
+            <View className="flex-row gap-1 items-center">
               <Image
                 source={require("../assets/images/Info.png")}
-                style={styles.icon}
+                className="w-5 h-5 object-contain"
               />
-              <View style={styles.card}>
-                <Text style={styles.label}>CARD</Text>
+              <View className="w-10 h-4 gap-[10px] border border-black items-center justify-center">
+                <Text className="text-body text-black">CARD</Text>
               </View>
             </View>
 
             <View>
-              <Text style={styles.label}>(朴多璘) 박다인</Text>
+              <Text className="text-body text-black">(朴多璘) 박다인</Text>
             </View>
           </View>
 
-          <Text style={styles.title}>PARK DA-IN</Text>
+          <Text className="text-title text-black">PARK DA-IN</Text>
         </View>
 
-        <View style={styles.info}>
-          <View style={styles.link_section}>
-            <View style={styles.link_goto}>
+        <View className="w-[348px] flex-row px-[5px] justify-between">
+          <View className="h-25 flex-col gap-1">
+            <View className="flex-row gap-2">
               <Image
                 source={require("../assets/images/Github.png")}
-                style={styles.icon}
+                className="w-5 h-5 object-contain"
               />
               <Image
                 source={require("../assets/images/Velog.png")}
-                style={styles.icon}
+                className="w-5 h-5 object-contain"
               />
             </View>
-            <View style={styles.photo_section}>
-              <Text style={styles.caption}>SIGNATURE{"\n"}PHOTO</Text>
+            <View className="flex-col gap-1">
+              <Text className="text-caption text-black">
+                SIGNATURE{"\n"}PHOTO
+              </Text>
               <Image
                 source={require("../assets/images/Photo.png")}
-                style={styles.photo}
+                className="w-[43px] h-[43px] object-contain"
               />
             </View>
           </View>
 
-          <View style={styles.description}>
-            <View style={styles.description_column}>
-              <View style={styles.description_section}>
-                <Text style={styles.caption}>NATIONALITY</Text>
-                <Text style={styles.caption}>REPUBLIC OF KOREA</Text>
+          <View className="w-60 flex-col gap-3 py-[3px]">
+            <View className="w-50 flex-row justify-between">
+              <View className="w-[110px] gap-1 flex-col">
+                <Text className="text-caption text-black">NATIONALITY</Text>
+                <Text className="text-caption text-black">
+                  REPUBLIC OF KOREA
+                </Text>
               </View>
-              <View style={styles.description_section}>
-                <Text style={styles.caption}>CONTACT</Text>
-                <Text style={styles.caption}>GUNMANNDUU@GMAIL.COM</Text>
-              </View>
-            </View>
-
-            <View style={styles.description_column}>
-              <View style={styles.description_section}>
-                <Text style={styles.caption}>DATE OF BIRTH</Text>
-                <Text style={styles.caption}>2002.12.29</Text>
-              </View>
-              <View style={styles.description_section}>
-                <Text style={styles.caption}>MOBILE</Text>
-                <Text style={styles.caption}>010-3104-0784</Text>
+              <View className="w-[110px] gap-1 flex-col">
+                <Text className="text-caption text-black">CONTACT</Text>
+                <Text className="text-caption text-black">
+                  GUNMANNDUU@GMAIL.COM
+                </Text>
               </View>
             </View>
 
-            <View style={styles.detail}>
-              <Text style={styles.mini}>
+            <View className="w-50 flex-row justify-between">
+              <View className="w-[110px] gap-1 flex-col">
+                <Text className="text-caption text-black">DATE OF BIRTH</Text>
+                <Text className="text-caption text-black">2002.12.29</Text>
+              </View>
+              <View className="w-[110px] gap-1 flex-col">
+                <Text className="text-caption text-black">MOBILE</Text>
+                <Text className="text-caption text-black">010-3104-0784</Text>
+              </View>
+            </View>
+
+            <View className="w-60 gap-2 pl-2 border-l-[1.5px] border-l-[#1E1E1E]">
+              <Text className="text-mini text-black">
                 ⚫ 안녕하세요 박다인입니다.⚫ 프론트엔드 개발자로써 다양한
                 프로젝트 경험을 쌓아가고 있어요.⚫️ 도전하는 것을 좋아하고,
                 새로움에 두려움 없이 도전해요.⚫️ 외향적인 성격이에요.⚫ 매콤한
@@ -82,169 +89,24 @@ export default function HomeScreen() {
       </View>
 
       {/* back card */}
-      <View style={styles.backcard}>
-        <View style={styles.section}>
-          <Text style={styles.label}>MORE(IG)</Text>
+      <View className="w-[390px] h-[230px] bg-primary rounded-[20px] px-[22px] py-[34px] items-center justify-center">
+        <View className="flex-row gap-10 p-5 items-center justify-center">
+          <Link href={"/more" as any} asChild>
+            <Pressable>
+              <Text className="text-body text-black">MORE(IG)</Text>
+            </Pressable>
+          </Link>
+
           <Image
             source={require("../assets/images/Arrow-right.png")}
-            style={styles.arrow}
+            className="w-3 h-3 object-contain"
           />
           <Image
             source={require("../assets/images/QRcode.png")}
-            style={styles.qrcode}
+            className="w-[70px] h-[70px] object-contain"
           />
         </View>
       </View>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: "column",
-    gap: 24,
-    backgroundColor: "#F5F5F5",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  frontcard: {
-    width: 390,
-    height: 230,
-    backgroundColor: "#4FA9C8",
-    borderRadius: 20,
-
-    flexDirection: "column",
-
-    paddingVertical: 20,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  name: {
-    width: 348,
-    flexDirection: "column",
-    gap: 4,
-  },
-  name_info: {
-    flexDirection: "row",
-    gap: 200,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  name_info_logo: {
-    flexDirection: "row",
-    gap: 4,
-    alignItems: "center",
-  },
-  card: {
-    width: 40,
-    height: 16,
-    gap: 10,
-    borderWidth: 1,
-    borderColor: "#1E1E1E",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  info: {
-    width: 348,
-    flexDirection: "row",
-    paddingHorizontal: 5,
-    justifyContent: "space-between",
-  },
-  link_section: {
-    height: 100,
-    flexDirection: "column",
-    gap: 4,
-  },
-  link_goto: {
-    flexDirection: "row",
-    gap: 8,
-  },
-  photo_section: {
-    flexDirection: "column",
-    gap: 4,
-  },
-  photo: {
-    width: 43,
-    height: 43,
-    resizeMode: "contain",
-  },
-  description: {
-    width: 240,
-    flexDirection: "column",
-    gap: 12,
-    paddingVertical: 3,
-  },
-  description_column: {
-    width: 200,
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-  description_section: {
-    width: 110,
-    gap: 4,
-    flexDirection: "column",
-  },
-  detail: {
-    width: 240,
-    gap: 8,
-    paddingLeft: 8,
-    borderLeftWidth: 1.5,
-    borderLeftColor: "#1E1E1E",
-  },
-
-  backcard: {
-    width: 390,
-    height: 230,
-    backgroundColor: "#4FA9C8",
-    borderRadius: 20,
-
-    paddingHorizontal: 22, //px-[22px]
-    paddingVertical: 34, //py-[34px]
-
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  section: {
-    flexDirection: "row",
-    gap: 40,
-    padding: 20,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  title: {
-    fontFamily: "Roboto-SemiBold",
-    fontSize: 64,
-    color: "#1E1E1E",
-  },
-  label: {
-    fontFamily: "Roboto-regular",
-    fontSize: 12,
-    color: "#1E1E1E",
-  },
-  caption: {
-    fontFamily: "Roboto-regular",
-    fontSize: 8,
-    color: "#1E1E1E",
-  },
-  mini: {
-    fontFamily: "Roboto-regular",
-    fontSize: 6,
-    color: "#1E1E1E",
-  },
-  icon: {
-    width: 20,
-    height: 20,
-    resizeMode: "contain", //이미지가 잘리지 않게 비율 유지
-  },
-  arrow: {
-    width: 12,
-    height: 12,
-    resizeMode: "contain", //이미지가 잘리지 않게 비율 유지
-  },
-  qrcode: {
-    width: 70,
-    height: 70,
-    resizeMode: "contain",
-  },
-});
