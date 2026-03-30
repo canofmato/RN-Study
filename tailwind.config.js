@@ -18,13 +18,13 @@ module.exports = {
         black: ["Roboto-Black"],
       },
       fontSize: {
-        title: ["64px", { fontFamily: "Roboto-SemiBold" }],
+        title: "64px",
         heading1: "24px",
         heading2: "18px",
         heading3: "16px",
-        body: ["12px", { fontFamily: "Roboto-Regular" }],
-        caption: ["8px", { fontFamily: "Roboto-Regular" }],
-        mini: ["6px", { fontFamily: "Roboto-Regular" }],
+        body: "12px",
+        caption: "8px",
+        mini: "6px",
       },
       colors: {
         black: "#1E1E1E",
