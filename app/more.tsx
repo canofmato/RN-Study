@@ -1,5 +1,13 @@
 import { useRouter } from "expo-router";
-import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { useState } from "react";
+import {
+  Image,
+  Pressable,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import Bookmark from "../assets/images/Bookmark.svg";
 import ChatBubble from "../assets/images/chat_bubble.svg";
 import ChevronLeft from "../assets/images/Chevron-left.svg";
@@ -11,6 +19,7 @@ import Send from "../assets/images/Send.svg";
 
 export default function MoreScreen() {
   const router = useRouter();
+  const [isLiked, setIsLiked] = useState(false);
 
   return (
     <View className="flex-1 flex-col py-[50px] bg-white">
@@ -81,7 +90,14 @@ export default function MoreScreen() {
         {/* reaction */}
         <View className="flex-row px-3 py-4 items-center justify-between">
           <View className="flex-row gap-4">
-            <Heart width={20} height={20} />
+            <Pressable onPress={() => setIsLiked(!isLiked)}>
+              {isLiked ? (
+                <Heart width={20} height={20} fill="black" />
+              ) : (
+                <Heart width={20} height={20} />
+              )}
+            </Pressable>
+            {/* <Heart width={20} height={20} /> */}
             <ChatBubble width={20} height={20} />
             <Send width={20} height={20} />
           </View>
