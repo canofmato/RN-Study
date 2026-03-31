@@ -1,3 +1,29 @@
-import App from '../App';
+import { Link } from 'expo-router';
+import { StyleSheet, Text, View } from 'react-native';
 
-export default App;
+export default function Index() {
+  return (
+    <View style={styles.container}>
+      <Link href="/week1" style={styles.link}>
+        <Text style={styles.linkText}>1주차 과제 보러가기</Text>
+      </Link>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+  },
+  link: {
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+  },
+  linkText: {
+    fontSize: 17,
+    color: '#2563eb',
+  },
+});
