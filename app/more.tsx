@@ -45,7 +45,7 @@ export default function MoreScreen() {
         {/* profile */}
         <View className="flex-row px-3 py-[10px] items-center justify-between">
           <View className="flex-row gap-2">
-            <View className="w-10 h-10 rounded-full overflow-hidden">
+            <View className="w-10 h-10">
               <Profile width={40} height={40} />
             </View>
 

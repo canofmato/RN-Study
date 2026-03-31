@@ -5,6 +5,8 @@ import Github from "../assets/images/Github.svg";
 import Info from "../assets/images/Info.svg";
 import Photo from "../assets/images/Photo.svg";
 import QRcode from "../assets/images/QRcode.svg";
+import Star from "../assets/images/Star.svg";
+import Ticket from "../assets/images/Ticket.svg";
 import Velog from "../assets/images/Velog.svg";
 
 export default function HomeScreen() {
@@ -13,12 +15,14 @@ export default function HomeScreen() {
       {/*front card  */}
       <View className="w-[390px] h-[230px] bg-primary rounded-[20px] flex-col p-5 items-center justify-center">
         <View className="w-full flex-col gap-1">
-          <View className="flex-row gap-50 items-center justify-between">
-            <View className="flex-row gap-1 items-center">
+          <View className="flex-row items-center justify-between">
+            <View className="flex-row gap-1 items-center justify-center">
               <Info width={20} height={20} />
               <View className="w-10 h-5 gap-[10px] border border-black items-center justify-center">
                 <Text className="text-body text-black">CARD</Text>
               </View>
+              <Star width={20} height={20} />
+              <Ticket width={20} height={20} />
             </View>
 
             <View>
