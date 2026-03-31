@@ -1,13 +1,13 @@
 import { Image } from 'expo-image';
 import { StyleSheet, Text, View } from 'react-native';
 
-const postImage = require('@/assets/images/post.png');
-const likeIcon = require('@/assets/images/Like.png');
-const commentIcon = require('@/assets/images/Comment.png');
-const shareIcon = require('@/assets/images/Messanger.png');
-const saveIcon = require('@/assets/images/Save.png');
-const likesAvatar = require('@/assets/images/Oval.png');
-const paginationPng = require('@/assets/images/Pagination.png');
+const postImage = require('@/assets/week2/post.png');
+const likeIcon = require('@/assets/week2/Like.png');
+const commentIcon = require('@/assets/week2/Comment.png');
+const shareIcon = require('@/assets/week2/Messanger.png');
+const saveIcon = require('@/assets/week2/Save.png');
+const likesAvatar = require('@/assets/week2/Oval.png');
+const paginationPng = require('@/assets/week2/Pagination.png');
 
 export function Body() {
   return (

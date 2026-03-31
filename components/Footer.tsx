@@ -2,11 +2,11 @@ import { Image } from 'expo-image';
 import { StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-const tab1 = require('@/assets/images/Tab 1.png');
-const tab2 = require('@/assets/images/Tab 2.png');
-const tab3 = require('@/assets/images/Tab 3.png');
-const tab4 = require('@/assets/images/Tab 4.png');
-const profileAvatar = require('@/assets/images/profile.png');
+const tab1 = require('@/assets/week2/Tab 1.png');
+const tab2 = require('@/assets/week2/Tab 2.png');
+const tab3 = require('@/assets/week2/Tab 3.png');
+const tab4 = require('@/assets/week2/Tab 4.png');
+const profileAvatar = require('@/assets/week2/profile.png');
 
 const TAB_ICON_SIZE = 56;
 
