@@ -1,26 +1,32 @@
-import { Body } from '@/components/Body';
-import { Footer } from '@/components/Footer';
-import { Header } from '@/components/Header';
-import { StyleSheet, View } from 'react-native';
+import { Link, type Href } from 'expo-router';
+import { StyleSheet, Text, View } from 'react-native';
 
-export default function HomeScreen() {
+export default function Index() {
   return (
-    <View style={styles.screen}>
-      <Header />
-      <View style={styles.bodyWrap}>
-        <Body />
-      </View>
-      <Footer />
+    <View style={styles.container}>
+      <Link href={'/week1' as Href} style={styles.link}>
+        <Text style={styles.linkText}>1주차 과제 보러가기</Text>
+      </Link>
+      <Link href={'/week2' as Href} style={styles.link}>
+        <Text style={styles.linkText}>2주차 과제 보러가기</Text>
+      </Link>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  screen: {
+  container: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#fff',
   },
-  bodyWrap: {
-    flex: 1,
+  link: {
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+  },
+  linkText: {
+    fontSize: 17,
+    color: '#2563eb',
   },
 });
