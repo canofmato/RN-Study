@@ -7,6 +7,8 @@ module.exports = (() => {
   // 1. 기본 엑스포 메트로 설정 가져오기
   const config = getDefaultConfig(__dirname);
 
+  module.exports = withNativeWind(config, { input: "./app/global.css" });
+  
   const { transformer, resolver } = config;
 
   // 2. SVG 트랜스포머 설정 추가
