@@ -10,6 +10,9 @@ export default function Index() {
       <Link href={'/week2' as Href} style={styles.link}>
         <Text style={styles.linkText}>2주차 과제 보러가기</Text>
       </Link>
+      <Link href={'/week3' as Href} style={styles.link}>
+        <Text style={styles.linkText}>3주차 과제 보러가기</Text>
+      </Link>
     </View>
   );
 }
