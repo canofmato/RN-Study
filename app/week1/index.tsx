@@ -10,23 +10,12 @@ const velog = require('../../assets/week1/velog.png');
 const siri = require('../../assets/week1/siri.png');
 
 import { useFonts } from 'expo-font';
-import * as SplashScreen from 'expo-splash-screen';
-import { useCallback } from 'react';
-
-
-SplashScreen.preventAutoHideAsync();
 
 
 export default function Week1Screen() {
   const [fontsLoaded] = useFonts({
     'Candal': require('../../assets/fonts/Candal-Regular.ttf'),
   });
-
-  const onLayoutRootView = useCallback(async () => {
-    if (fontsLoaded) {
-      await SplashScreen.hideAsync();
-    }
-  }, [fontsLoaded]);
 
   if (!fontsLoaded) {
     return null;
@@ -38,7 +27,7 @@ export default function Week1Screen() {
 
 
   return (
-    <View style={styles.container} onLayout={onLayoutRootView}>
+    <View style={styles.container}>
       <ImageBackground source={background} style={styles.background}>
         <Image source={ticket} style={styles.ticket as ImageStyle} />
         <Image source={star} style={{ width: 75, height: 82, position: 'absolute', top: 50, right: 0 }} />
