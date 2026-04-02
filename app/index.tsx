@@ -28,6 +28,9 @@ export default function ProfileScreen() {
       <View style={styles.bioSection}>
         <Text style={styles.name}>엄민서</Text>
         <Text style={styles.bio}>숙명여자대학교 IT공학전공</Text>
+         <Pressable style={styles.wishButton} onPress={() => router.push('/wishlist')}>
+          <Text style={styles.wishButtonText}>Wish List</Text>
+        </Pressable>
       </View>
 
       <View style={styles.grid}>
@@ -109,12 +112,24 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
 
+   wishButton: {
+    backgroundColor: '#3B82F6',
+    paddingVertical: 10,
+    borderRadius: 8,
+    alignItems: 'center',
+    marginTop: 8,
+  },
+
+  wishButtonText: {
+    color: '#fff',
+    fontWeight: '600',
+  },
+
   grid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
     paddingHorizontal: 4,
-    marginTop: -140,
   },
 
   gridItem: {
