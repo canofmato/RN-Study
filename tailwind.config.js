@@ -31,6 +31,8 @@ module.exports = {
         white: "#FFFFFF",
         primary: "#4FA9C8",
         green: "#81C84F",
+        wish: "#0D58BE",
+        wishLight: "#4780D7",
         gray: {
           50: "#F4F5F6",
           100: "#E6E8EA",

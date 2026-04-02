@@ -21,7 +21,11 @@ export default function HomeScreen() {
               <View className="w-10 h-5 gap-[10px] border border-black items-center justify-center">
                 <Text className="text-body text-black">CARD</Text>
               </View>
-              <Star width={20} height={20} />
+              <Link href={"/wish" as any} asChild>
+                <Pressable>
+                  <Star width={20} height={20} />
+                </Pressable>
+              </Link>
               <Ticket width={20} height={20} />
             </View>
 
