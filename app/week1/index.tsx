@@ -1,13 +1,13 @@
 import { StyleSheet, Text, View, Image, ImageBackground, ImageStyle, TouchableOpacity, Linking } from 'react-native';
-import background from '../../assets/week1/background.png';
-import name from '../../assets/week1/name.png';
-import ticket from '../../assets/week1/ticket.png';
-import star from '../../assets/week1/star.png';
-import cat from '../../assets/week1/cat.png';
-import instagram from '../../assets/week1/instagram.png';
-import github from '../../assets/week1/github.png';
-import velog from '../../assets/week1/velog.png';
-import siri from '../../assets/week1/siri.png';
+const background = require('../../assets/week1/background.png');
+const name = require('../../assets/week1/name.png');
+const ticket = require('../../assets/week1/ticket.png');
+const star = require('../../assets/week1/star.png');
+const cat = require('../../assets/week1/cat.png');
+const instagram = require('../../assets/week1/instagram.png');
+const github = require('../../assets/week1/github.png');
+const velog = require('../../assets/week1/velog.png');
+const siri = require('../../assets/week1/siri.png');
 
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
