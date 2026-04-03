@@ -1,8 +1,15 @@
+import DecorativeText from "@/components/DecorativeText";
 import WishList from "@/components/WishList";
 import WishModal from "@/components/WishModal";
 import { Link } from "expo-router";
 import { useState } from "react";
-import { Pressable, Text, TouchableOpacity, View } from "react-native";
+import {
+  Pressable,
+  Text,
+  TouchableOpacity,
+  View,
+  useWindowDimensions,
+} from "react-native";
 import Cart from "../assets/images/Cart.svg";
 import Home from "../assets/images/Home.svg";
 import Plus from "../assets/images/Plus.svg";
@@ -24,25 +31,53 @@ export default function WishScreen() {
   const [isListOpen, setIsListOpen] = useState(false);
   const [wishList, setWishList] = useState<WishItem[]>([]);
 
+  const { width, height } = useWindowDimensions();
+
+  const EMOJI_SIZE = 100;
+  const BOX_WIDTH = 306;
+  const BOX_HEIGHT = 440;
+
   const handleAddWish = (data: {
     emoji: string;
     title: string;
     description: string;
   }) => {
+    const centerX = width / 2;
+    const centerY = height / 2;
+
+    const minLeft = centerX - BOX_WIDTH / 2;
+    const minTop = centerY - BOX_HEIGHT / 2;
+
     const newWish: WishItem = {
       id: Date.now(),
       ...data,
       isDone: false,
-      // top: Math.floor(Math.random() * 186) + 60,
-      // left: Math.floor(Math.random() * 300) + 70,
-      top: Math.floor(Math.random() * 300) + 200,
-      left: Math.floor(Math.random() * 300) + 50,
+      top: Math.floor(Math.random() * (BOX_HEIGHT - EMOJI_SIZE)) + minTop,
+      left: Math.floor(Math.random() * (BOX_WIDTH - EMOJI_SIZE)) + minLeft,
       rotate: `${Math.floor(Math.random() * 60) - 30}deg`,
     };
 
     setWishList([...wishList, newWish]);
     setIsModalOpen(false);
   };
+
+  // const handleAddWish = (data: {
+  //   emoji: string;
+  //   title: string;
+  //   description: string;
+  // }) => {
+  //   const newWish: WishItem = {
+  //     id: Date.now(),
+  //     ...data,
+  //     isDone: false,
+  //     top: Math.floor(Math.random() * 300) + 200,
+  //     left: Math.floor(Math.random() * 270) + 50,
+  //     rotate: `${Math.floor(Math.random() * 60) - 30}deg`,
+  //   };
+
+  //   setWishList([...wishList, newWish]);
+  //   setIsModalOpen(false);
+  // };
 
   const wishDone = (id: number) => {
     setWishList((prevList) =>
@@ -56,97 +91,50 @@ export default function WishScreen() {
     <View className="relative flex-1 bg-white items-center justify-center">
       <Link href={"/"} asChild>
         <Pressable
-          className="absolute right-[20px] top-[70px] w-[50px] h-[50px] items-center justify-center"
+          style={{
+            position: "absolute",
+            right: 30,
+            top: 70,
+            width: 50,
+            height: 50,
+            alignItems: "center",
+            justifyContent: "center",
+          }}
           hitSlop={20}
         >
           <Home width={30} height={30} />
         </Pressable>
       </Link>
 
-      <Text
-        className="absolute text-[200px] text-black left-[149px] top-[42px]"
-        style={{ transform: [{ rotate: "-20deg" }] }}
-      >
-        L
-      </Text>
-      <Text
-        className="absolute text-[200px] text-black left-[308px] top-[317px]"
-        style={{ transform: [{ rotate: "-6deg" }] }}
-      >
-        E
-      </Text>
+      <DecorativeText text="L" top={42} left={149} rotate=" -20deg" />
+      <DecorativeText text="E" top={317} left={308} rotate=" -6deg" />
       <Cart
         width={440}
         height={306}
         style={{ transform: [{ rotate: "-85deg" }] }}
       />
-      <Text
-        className="absolute text-[200px] text-black left-[-13px] top-[83px]"
-        style={{ transform: [{ rotate: "-11deg" }] }}
-      >
-        F
-      </Text>
-      <Text
-        className="absolute text-[200px] text-black left-[86px] top-[37px]"
-        style={{ transform: [{ rotate: "2deg" }] }}
-      >
-        I
-      </Text>
-      <Text
-        className="absolute text-[200px] text-black left-[273px] top-[65px]"
-        style={{ transform: [{ rotate: "-11deg" }] }}
-      >
-        L
-      </Text>
-      <Text
-        className="absolute text-[200px] text-black left-[-39px] top-[273px]"
-        style={{ transform: [{ rotate: "15deg" }] }}
-      >
-        T
-      </Text>
-      <Text
-        className="absolute text-[200px] text-black left-[-42px] top-[427px]"
-        style={{ transform: [{ rotate: "20deg" }] }}
-      >
-        H
-      </Text>
-      <Text
-        className="absolute text-[200px] text-black left-[-36px] top-[610px]"
-        style={{ transform: [{ rotate: "-18deg" }] }}
-      >
-        C
-      </Text>
-      <Text
-        className="absolute text-[200px] text-black left-[73px] top-[646px]"
-        style={{ transform: [{ rotate: "-17deg" }] }}
-      >
-        A
-      </Text>
-      <Text
-        className="absolute text-[200px] text-black left-[160px] top-[586px]"
-        style={{ transform: [{ rotate: "-23deg" }] }}
-      >
-        R
-      </Text>
-      <Text
-        className="absolute text-[200px] text-black left-[285px] top-[629px]"
-        style={{ transform: [{ rotate: "5deg" }] }}
-      >
-        T
-      </Text>
+      <DecorativeText text="F" top={83} left={-13} rotate=" -11deg" />
+      <DecorativeText text="I" top={37} left={86} rotate=" 2deg" />
+      <DecorativeText text="L" top={65} left={273} rotate=" -11deg" />
+      <DecorativeText text="T" top={273} left={-39} rotate=" 15deg" />
+      <DecorativeText text="H" top={427} left={-42} rotate=" -20deg" />
+      <DecorativeText text="C" top={610} left={-36} rotate=" -18deg" />
+      <DecorativeText text="A" top={646} left={73} rotate=" -17deg" />
+      <DecorativeText text="R" top={586} left={160} rotate=" -23deg" />
+      <DecorativeText text="T" top={629} left={285} rotate=" 5deg" />
 
       {wishList.map((item) => (
-        <Text
+        <View
           key={item.id}
-          className="absolute text-[100px]"
           style={{
+            position: "absolute",
             top: item.top,
             left: item.left,
             transform: [{ rotate: item.rotate }],
           }}
         >
-          {item.emoji}
-        </Text>
+          <Text className="text-[100px] text-black">{item.emoji}</Text>
+        </View>
       ))}
 
       {showMenu && (
