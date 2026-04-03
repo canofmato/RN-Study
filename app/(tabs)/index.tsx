@@ -190,7 +190,7 @@ const styles = StyleSheet.create({
   inputContainer: {
     flexDirection: 'row',
     paddingHorizontal: 24,
-    paddingBottom: 32,
+    paddingBottom: 56,
     gap: 12,
     alignItems: 'center',
   },
