@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { StyleSheet, View, TextInput, TouchableOpacity, FlatList, Alert, Image, Text } from 'react-native';
-import { useFonts, IslandMoments_400Regular } from '@expo-google-fonts/island-moments';
 import { Gaegu_400Regular } from '@expo-google-fonts/gaegu';
+import { IslandMoments_400Regular, useFonts } from '@expo-google-fonts/island-moments';
 import * as SplashScreen from 'expo-splash-screen';
+import React, { useState } from 'react';
+import { Alert, FlatList, Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -21,7 +21,7 @@ export default function WishlistScreen() {
   const [items, setItems] = useState<WishlistItem[]>([
     { id: '1', title: '유럽 가기', checked: false },
     { id: '2', title: '대학 졸업하기', checked: false },
-    { id: '3', title: '번지점프 하보기', checked: false },
+    { id: '3', title: '번지점프 해보기', checked: false },
   ]);
   
   const [newItem, setNewItem] = useState('');
