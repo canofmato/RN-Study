@@ -1,8 +1,20 @@
 import { useFonts } from "expo-font";
 import { LinearGradient } from "expo-linear-gradient";
-import { useState } from "react";
-import { Pressable, Text, TextInput, View } from "react-native";
-import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import { Dispatch, SetStateAction, useState } from "react";
+import {
+  KeyboardAvoidingView,
+  Platform,
+  Pressable,
+  ScrollView,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
+import {
+  SafeAreaProvider,
+  SafeAreaView,
+  useSafeAreaInsets,
+} from "react-native-safe-area-context";
 
 import Blueheart from "../../assets/week3/blueheart.svg";
 import Click from "../../assets/week3/click.svg";
@@ -32,14 +44,75 @@ export default function Week3Screen() {
     "Libre-Bodoni": require("../../assets/fonts/LibreBodoni.ttf"),
   });
 
+  if (!fontsLoaded) {
+    return null;
+  }
+
   return (
-    <SafeAreaProvider>
-      <SafeAreaView className="flex-1">
+    <SafeAreaProvider style={{ flex: 1 }}>
+      <Week3ScreenContent
+        wishText={wishText}
+        setWishText={setWishText}
+        wishList={wishList}
+        onAddWish={handleAddWish}
+        onDeleteWish={handleDeleteWish}
+      />
+    </SafeAreaProvider>
+  );
+}
+
+type Week3ScreenContentProps = {
+  wishText: string;
+  setWishText: Dispatch<SetStateAction<string>>;
+  wishList: string[];
+  onAddWish: () => void;
+  onDeleteWish: (index: number) => void;
+};
+
+function Week3ScreenContent({
+  wishText,
+  setWishText,
+  wishList,
+  onAddWish,
+  onDeleteWish,
+}: Week3ScreenContentProps) {
+  const insets = useSafeAreaInsets();
+
+  return (
+    <SafeAreaView
+      className="flex-1"
+      style={{ flex: 1 }}
+      edges={["top"]}
+    >
         <LinearGradient
           colors={["#4759FF", "#FFF"]}
           locations={[0.0817, 0.8221]}
           className="flex-1 items-center"
+          style={{ flex: 1, width: "100%" }}
         >
+          <KeyboardAvoidingView
+            style={{ flex: 1, width: "100%" }}
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+            keyboardVerticalOffset={Platform.OS === "ios" ? insets.top : 0}
+          >
+            <ScrollView
+              style={{ flex: 1, width: "100%" }}
+              contentContainerStyle={{
+                flexGrow: 1,
+                alignItems: "center",
+                paddingBottom: Math.max(insets.bottom, 12) + 24,
+              }}
+              keyboardShouldPersistTaps="handled"
+              keyboardDismissMode="on-drag"
+              showsVerticalScrollIndicator={false}
+            >
+              <View
+                style={{
+                  width: "100%",
+                  alignItems: "center",
+                  flexGrow: 1,
+                }}
+              >
           <View className="w-full bg-[#00FF3C] py-2 items-center">
             <Text className="text-black text-xs">made by @yuvvinn</Text>
           </View>
@@ -126,7 +199,7 @@ export default function Week3Screen() {
             {wishList.map((wish, index) => (
               <Pressable
                 key={`${wish}-${index}`}
-                onLongPress={() => handleDeleteWish(index)}
+                onLongPress={() => onDeleteWish(index)}
                 delayLongPress={250}
                 className="flex-row items-center gap-3"
               >
@@ -140,7 +213,9 @@ export default function Week3Screen() {
             ))}
           </View>
 
-          <View className="mt-auto mb-10 w-full flex-row items-center justify-center gap-3">
+                <View style={{ flexGrow: 1, minHeight: 24 }} />
+
+          <View className="w-full flex-row items-center justify-center gap-3">
             <View style={{ width: 185, height: 41, justifyContent: "center" }}>
               <Input
                 width={185}
@@ -150,8 +225,8 @@ export default function Week3Screen() {
               <TextInput
                 value={wishText}
                 onChangeText={setWishText}
-                onSubmitEditing={handleAddWish}
-                placeholder="고민하는 중..."
+                onSubmitEditing={onAddWish}
+                placeholder="고민 중..."
                 placeholderTextColor="#666"
                 returnKeyType="done"
                 style={{
@@ -162,12 +237,14 @@ export default function Week3Screen() {
                 }}
               />
             </View>
-            <Pressable onPress={handleAddWish}>
+            <Pressable onPress={onAddWish}>
               <Click width={56} height={56} />
             </Pressable>
           </View>
+              </View>
+            </ScrollView>
+          </KeyboardAvoidingView>
         </LinearGradient>
-      </SafeAreaView>
-    </SafeAreaProvider>
+    </SafeAreaView>
   );
 }
