@@ -1,4 +1,4 @@
-import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Image, Pressable, Text, View } from 'react-native';
 import { router } from 'expo-router';
 import { useState } from 'react';
 
@@ -6,69 +6,34 @@ export default function PostScreen() {
   const [liked, setLiked] = useState(false);
 
   return (
-    <View style={styles.container}>
+    <View className="flex-1 bg-white px-4 pt-[60px]">
       <Pressable onPress={() => router.back()}>
-        <Text style={styles.back}>←</Text>
+        <Text className="mb-4 text-[24px]">←</Text>
       </Pressable>
 
-      <View style={styles.profileRow}>
+      <View className="mb-3 flex-row items-center">
         <Image
           source={require('@/assets/images/profile.png')}
-          style={styles.profileImage}
+          className="mr-2 h-[36px] w-[36px] rounded-full"
         />
-        <Text style={styles.username}>엄민서</Text>
+        <Text className="text-[14px] font-semibold">엄민서</Text>
       </View>
 
       <Image
         source={require('@/assets/images/post.png')}
-        style={styles.postImage}
+        className="mb-3 h-[380px] w-full"
       />
 
       <Pressable onPress={() => setLiked(!liked)}>
-        <Text style={styles.like}>{liked ? '♥' : '♡'}</Text>
+        <Image
+        source={
+          liked
+            ? require('@/assets/images/heart_fill.png')
+            : require('@/assets/images/heart.png')
+        }
+        style={{ width: 28, height: 28 }}
+        />
       </Pressable>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    paddingTop: 60,
-    paddingHorizontal: 16,
-  },
-
-  back: {
-    fontSize: 24,
-    marginBottom: 16,
-  },
-
-  profileRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 12,
-  },
-
-  profileImage: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    marginRight: 8,
-  },
-
-  username: {
-    fontSize: 14,
-    fontWeight: '600',
-  },
-
-  postImage: {
-    width: '100%',
-    height: 380,
-    marginBottom: 12,
-  },
-  
-  like: {
-    fontSize: 28,
-  },
-});
