@@ -37,7 +37,7 @@ export default function Week1Screen() {
         <View style={styles.mainWrapper}>
           <View style={styles.centerContainer}>
             <Image source={name} style={styles.name as ImageStyle} />
-            <Text style={styles.connectText}>Let's Connect</Text>
+            <Text style={styles.connectText}>{`Let's Connect`}</Text>
           </View>
 
           <View style={styles.iconRow}>
@@ -61,7 +61,7 @@ export default function Week1Screen() {
 
         <View style={styles.siriSection}>
           <View style={styles.bubbleRight}><Text style={styles.bubbleText}>Hey Siri, Show me the best FE developer in the world?</Text></View>
-          <View style={styles.bubbleLeft}><Text style={styles.bubbleText}>Sure thing, they're on your screen now.</Text></View>
+          <View style={styles.bubbleLeft}><Text style={styles.bubbleText}>{`Sure thing, they're on your screen now.`}</Text></View>
           <Image source={siri} style={styles.siriIcon as ImageStyle} />
         </View>
 
