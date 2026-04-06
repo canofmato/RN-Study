@@ -1,3 +1,4 @@
+import { WishProvider } from "@/context/WishContext";
 import {
   Roboto_100Thin,
   Roboto_300Light,
@@ -36,11 +37,13 @@ export default function RootLayout() {
   if (!loaded && !error) return null;
 
   return (
-    <Stack screenOptions={{ headerShown: false }}>
-      {/* 모든 화면에서 상단바를 숨긴다 */}
+    <WishProvider>
+      <Stack screenOptions={{ headerShown: false }}>
+        {/* 모든 화면에서 상단바를 숨긴다 */}
 
-      {/* index.tsx가 첫 화면*/}
-      <Stack.Screen name="index" />
-    </Stack>
+        {/* index.tsx가 첫 화면*/}
+        <Stack.Screen name="index" />
+      </Stack>
+    </WishProvider>
   );
 }

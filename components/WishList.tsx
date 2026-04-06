@@ -61,9 +61,13 @@ export default function WishList({
                 {items.map((item) => (
                   <Card
                     key={item.id}
+                    id={item.id}
+                    emoji={item.emoji}
                     title={item.title}
+                    description={item.description}
                     isDone={item.isDone}
                     onToggle={() => onToggleItem(item.id)}
+                    onCloseModal={onClose}
                   />
                 ))}
               </ScrollView>

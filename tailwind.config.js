@@ -22,6 +22,7 @@ module.exports = {
         heading1: "24px",
         heading2: "18px",
         heading3: "16px",
+        heading4: "14px",
         body: "12px",
         caption: "8px",
         mini: "6px",

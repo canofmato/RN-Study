@@ -1,8 +1,9 @@
 import DecorativeText from "@/components/DecorativeText";
 import WishList from "@/components/WishList";
 import WishModal from "@/components/WishModal";
-import { Link } from "expo-router";
-import { useState } from "react";
+import { useWish } from "@/context/WishContext";
+import { Link, useLocalSearchParams } from "expo-router";
+import { useEffect, useState } from "react";
 import {
   Pressable,
   Text,
@@ -26,10 +27,18 @@ interface WishItem {
 }
 
 export default function WishScreen() {
+  const { wishList, addWish, toggleWish } = useWish();
+  const { openModal } = useLocalSearchParams();
   const [showMenu, setShowMenu] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isListOpen, setIsListOpen] = useState(false);
-  const [wishList, setWishList] = useState<WishItem[]>([]);
+  // const [wishList, setWishList] = useState<WishItem[]>([]);
+
+  useEffect(() => {
+    if (openModal === "true") {
+      setIsListOpen(true);
+    }
+  }, [openModal]);
 
   const { width, height } = useWindowDimensions();
 
@@ -57,34 +66,12 @@ export default function WishScreen() {
       rotate: `${Math.floor(Math.random() * 60) - 30}deg`,
     };
 
-    setWishList([...wishList, newWish]);
+    addWish(newWish);
     setIsModalOpen(false);
   };
 
-  // const handleAddWish = (data: {
-  //   emoji: string;
-  //   title: string;
-  //   description: string;
-  // }) => {
-  //   const newWish: WishItem = {
-  //     id: Date.now(),
-  //     ...data,
-  //     isDone: false,
-  //     top: Math.floor(Math.random() * 300) + 200,
-  //     left: Math.floor(Math.random() * 270) + 50,
-  //     rotate: `${Math.floor(Math.random() * 60) - 30}deg`,
-  //   };
-
-  //   setWishList([...wishList, newWish]);
-  //   setIsModalOpen(false);
-  // };
-
   const wishDone = (id: number) => {
-    setWishList((prevList) =>
-      prevList.map((item) =>
-        item.id === id ? { ...item, isDone: !item.isDone } : item,
-      ),
-    );
+    toggleWish(id);
   };
 
   return (
