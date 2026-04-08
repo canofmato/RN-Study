@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { View, Text, TextInput, Pressable, FlatList } from 'react-native';
+import { View, Text, TextInput, Pressable, FlatList, KeyboardAvoidingView, Platform, StyleSheet } from 'react-native';
 import { router } from 'expo-router';
 import BackIcon from '@/assets/images/back.svg';
 import CheckIcon from '@/assets/images/check.svg';
@@ -44,6 +44,10 @@ export default function WishlistScreen() {
   };
 
   return (
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    >
     <View className="flex-1 bg-white px-4 pt-[60px]">
       <Pressable onPress={() => router.back()}>
         <BackIcon width={24} height={24} />
@@ -69,6 +73,7 @@ export default function WishlistScreen() {
       <FlatList
         data={wishList}
         keyExtractor={item => item.id}
+        contentContainerStyle={styles.listContent}
         renderItem={({ item }) => (
           <View className="mb-3 flex-row items-center rounded-lg border border-gray-200 p-4">
             <Pressable
@@ -103,8 +108,17 @@ export default function WishlistScreen() {
             등록된 할 일이 없습니다.
           </Text>
         }
-        contentContainerStyle={{ paddingBottom: 30 }}
       />
     </View>
+    </KeyboardAvoidingView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  listContent: {
+    paddingBottom: 30,
+  },
+});
