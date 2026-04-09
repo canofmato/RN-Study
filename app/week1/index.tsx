@@ -10,23 +10,12 @@ const velog = require('../../assets/week1/velog.png');
 const siri = require('../../assets/week1/siri.png');
 
 import { useFonts } from 'expo-font';
-import * as SplashScreen from 'expo-splash-screen';
-import { useCallback } from 'react';
-
-
-SplashScreen.preventAutoHideAsync();
 
 
 export default function Week1Screen() {
   const [fontsLoaded] = useFonts({
     'Candal': require('../../assets/fonts/Candal-Regular.ttf'),
   });
-
-  const onLayoutRootView = useCallback(async () => {
-    if (fontsLoaded) {
-      await SplashScreen.hideAsync();
-    }
-  }, [fontsLoaded]);
 
   if (!fontsLoaded) {
     return null;
@@ -38,7 +27,7 @@ export default function Week1Screen() {
 
 
   return (
-    <View style={styles.container} onLayout={onLayoutRootView}>
+    <View style={styles.container}>
       <ImageBackground source={background} style={styles.background}>
         <Image source={ticket} style={styles.ticket as ImageStyle} />
         <Image source={star} style={{ width: 75, height: 82, position: 'absolute', top: 50, right: 0 }} />
@@ -48,7 +37,7 @@ export default function Week1Screen() {
         <View style={styles.mainWrapper}>
           <View style={styles.centerContainer}>
             <Image source={name} style={styles.name as ImageStyle} />
-            <Text style={styles.connectText}>Let's Connect</Text>
+            <Text style={styles.connectText}>{`Let's Connect`}</Text>
           </View>
 
           <View style={styles.iconRow}>
@@ -72,7 +61,7 @@ export default function Week1Screen() {
 
         <View style={styles.siriSection}>
           <View style={styles.bubbleRight}><Text style={styles.bubbleText}>Hey Siri, Show me the best FE developer in the world?</Text></View>
-          <View style={styles.bubbleLeft}><Text style={styles.bubbleText}>Sure thing, they're on your screen now.</Text></View>
+          <View style={styles.bubbleLeft}><Text style={styles.bubbleText}>{`Sure thing, they're on your screen now.`}</Text></View>
           <Image source={siri} style={styles.siriIcon as ImageStyle} />
         </View>
 
