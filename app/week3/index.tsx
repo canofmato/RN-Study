@@ -1,5 +1,6 @@
 import { useFonts } from "expo-font";
 import { LinearGradient } from "expo-linear-gradient";
+import { useRouter } from "expo-router";
 import { Dispatch, SetStateAction, useState } from "react";
 import {
   KeyboardAvoidingView,
@@ -76,6 +77,7 @@ function Week3ScreenContent({
   onAddWish,
   onDeleteWish,
 }: Week3ScreenContentProps) {
+  const router = useRouter();
   const insets = useSafeAreaInsets();
 
   return (
@@ -199,6 +201,11 @@ function Week3ScreenContent({
             {wishList.map((wish, index) => (
               <Pressable
                 key={`${wish}-${index}`}
+                onPress={() =>
+                  router.push(
+                    `/week3/detail?wish=${encodeURIComponent(wish)}&index=${index}`
+                  )
+                }
                 onLongPress={() => onDeleteWish(index)}
                 delayLongPress={250}
                 className="flex-row items-center gap-3"
