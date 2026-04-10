@@ -1,65 +1,52 @@
 import { Gaegu_400Regular } from '@expo-google-fonts/gaegu';
 import { IslandMoments_400Regular, useFonts } from '@expo-google-fonts/island-moments';
+import { useWishlist, type WishlistItem } from '@/components/wishlist-context';
 import * as SplashScreen from 'expo-splash-screen';
-import React, { useState } from 'react';
+import { useRouter } from 'expo-router';
+import React, { useEffect, useState } from 'react';
 import { Alert, FlatList, Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 SplashScreen.preventAutoHideAsync();
 
-interface WishlistItem {
-  id: string;
-  title: string;
-  checked: boolean;
-}
-
 export default function WishlistScreen() {
+  const router = useRouter();
+  const { items, addItem: createWishlistItem, deleteItem, toggleCheck } = useWishlist();
   const [fontsLoaded] = useFonts({
     'island-moments': IslandMoments_400Regular,
     'gaegu': Gaegu_400Regular,
   });
-
-  const [items, setItems] = useState<WishlistItem[]>([
-    { id: '1', title: '유럽 가기', checked: false },
-    { id: '2', title: '대학 졸업하기', checked: false },
-    { id: '3', title: '번지점프 해보기', checked: false },
-  ]);
-  
   const [newItem, setNewItem] = useState('');
+
+  useEffect(() => {
+    if (fontsLoaded) {
+      SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded]);
 
   if (!fontsLoaded) {
     return null;
   }
 
-  SplashScreen.hideAsync();
-
-  const addItem = () => {
-    if (newItem.trim() === '') {
-      return;
+  const handleAddItem = () => {
+    const newWishItem = createWishlistItem(newItem);
+    if (newWishItem) {
+      router.push({
+        pathname: '/wish/[id]',
+        params: { id: newWishItem.id },
+      });
+      setNewItem('');
     }
-
-    const newWishItem: WishlistItem = {
-      id: Date.now().toString(),
-      title: newItem,
-      checked: false,
-    };
-
-    setItems([newWishItem, ...items]);
-    setNewItem('');
-  };
-
-  const deleteItem = (id: string) => {
-    setItems(items.filter(item => item.id !== id));
-  };
-
-  const toggleCheck = (id: string) => {
-    setItems(items.map(item =>
-      item.id === id ? { ...item, checked: !item.checked } : item
-    ));
   };
 
   const renderItem = ({ item }: { item: WishlistItem }) => (
     <TouchableOpacity
       style={styles.itemCard}
+      onPress={() =>
+        router.push({
+          pathname: '/wish/[id]',
+          params: { id: item.id },
+        })
+      }
       onLongPress={() => {
         Alert.alert('삭제', `'${item.title}'을(를) 삭제하시겠어요?`, [
           { text: '취소', onPress: () => {}, style: 'cancel' },
@@ -106,9 +93,9 @@ export default function WishlistScreen() {
           placeholderTextColor="rgba(255, 255, 255, 0.6)"
           value={newItem}
           onChangeText={setNewItem}
-          onSubmitEditing={addItem}
+          onSubmitEditing={handleAddItem}
         />
-        <TouchableOpacity style={styles.addButton} onPress={addItem}>
+        <TouchableOpacity style={styles.addButton} onPress={handleAddItem}>
           <Text style={styles.addButtonText}>+</Text>
         </TouchableOpacity>
       </View>
