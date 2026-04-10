@@ -1,4 +1,4 @@
-import "../global.css";
+import "./global.css";
 
 import { useState } from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
