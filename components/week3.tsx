@@ -7,7 +7,7 @@ import {
     View,
 } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
-import { colors, styles } from "./styles";
+import { colors, styles } from "./week3Styles";
 
 type WishItem = {
   id: string;

@@ -1,11 +1,17 @@
 import { Link } from "expo-router";
-import { Text, TouchableOpacity, View } from "react-native";
-import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import { ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+
+const PROJECTS = [
+  { id: "week2" as const, title: "인스타그램 레이아웃" },
+  { id: "week3" as const, title: "할 일 목록 만들기" },
+];
 
 export default function HomeScreen() {
   return (
-    <SafeAreaProvider>
-      <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
+      <ScrollView>
+        {/* 헤더 부분 */}
         <View
           style={{ paddingHorizontal: 24, paddingTop: 40, paddingBottom: 16 }}
         >
@@ -17,44 +23,33 @@ export default function HomeScreen() {
           </Text>
         </View>
 
+        {/* 리스트 부분 */}
         <View style={{ paddingHorizontal: 24, gap: 12 }}>
-          <Link href="/week2" asChild>
-            <TouchableOpacity
-              style={{
-                padding: 20,
-                borderRadius: 12,
-                borderWidth: 0.5,
-                borderColor: "#ddd",
-              }}
-            >
-              <Text style={{ fontSize: 12, color: "#888", marginBottom: 4 }}>
-                2주차
-              </Text>
-              <Text style={{ fontSize: 16, fontWeight: "500", color: "#111" }}>
-                인스타그램 레이아웃 설정
-              </Text>
-            </TouchableOpacity>
-          </Link>
-
-          <Link href="/week3" asChild>
-            <TouchableOpacity
-              style={{
-                padding: 20,
-                borderRadius: 12,
-                borderWidth: 0.5,
-                borderColor: "#ddd",
-              }}
-            >
-              <Text style={{ fontSize: 12, color: "#888", marginBottom: 4 }}>
-                3주차
-              </Text>
-              <Text style={{ fontSize: 16, fontWeight: "500", color: "#111" }}>
-                위시리스트/할 일 목록 만들기
-              </Text>
-            </TouchableOpacity>
-          </Link>
+          {PROJECTS.map((item) => (
+            <Link key={item.id} href={`/${item.id}`} asChild>
+              <TouchableOpacity
+                activeOpacity={0.7}
+                style={{
+                  padding: 20,
+                  borderRadius: 12,
+                  borderWidth: 0.5,
+                  borderColor: "#ddd",
+                  backgroundColor: "#fff",
+                }}
+              >
+                <Text style={{ fontSize: 12, color: "#888", marginBottom: 4 }}>
+                  {item.id}주차
+                </Text>
+                <Text
+                  style={{ fontSize: 16, fontWeight: "500", color: "#111" }}
+                >
+                  {item.title}
+                </Text>
+              </TouchableOpacity>
+            </Link>
+          ))}
         </View>
-      </SafeAreaView>
-    </SafeAreaProvider>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
