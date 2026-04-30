@@ -35,6 +35,13 @@ export default function ProfileScreen() {
         >
           <Text className="font-semibold text-white">Wish List</Text>
         </Pressable>
+
+        <Pressable
+          className="mt-2 items-center rounded-lg bg-blue-500 py-2.5"
+          onPress={() => router.push('/weather')}
+        >
+          <Text className="font-semibold text-white">View Weather</Text>
+        </Pressable>
       </View>
 
       <View className="mt-4 flex-row flex-wrap justify-between px-1">
