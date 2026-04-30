@@ -26,7 +26,11 @@ export default function HomeScreen() {
                   <Star width={20} height={20} />
                 </Pressable>
               </Link>
-              <Ticket width={20} height={20} />
+              <Link href={"/weather" as any} asChild>
+                <Pressable>
+                  <Ticket width={20} height={20} />
+                </Pressable>
+              </Link>
             </View>
 
             <View>
