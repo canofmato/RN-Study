@@ -1,18 +1,21 @@
 import { Link, type Href } from 'expo-router';
 import { StyleSheet, Text, View } from 'react-native';
 
+const weekLinks = [
+  { href: '/week1', label: '1주차 과제 보러가기' },
+  { href: '/week2', label: '2주차 과제 보러가기' },
+  { href: '/week3', label: '3주차 과제 보러가기' },
+  { href: '/week5', label: '5주차 과제 보러가기' },
+];
+
 export default function Index() {
   return (
     <View style={styles.container}>
-      <Link href={'/week1' as Href} style={styles.link}>
-        <Text style={styles.linkText}>1주차 과제 보러가기</Text>
-      </Link>
-      <Link href={'/week2' as Href} style={styles.link}>
-        <Text style={styles.linkText}>2주차 과제 보러가기</Text>
-      </Link>
-      <Link href={'/week3' as Href} style={styles.link}>
-        <Text style={styles.linkText}>3주차 과제 보러가기</Text>
-      </Link>
+      {weekLinks.map((week) => (
+        <Link key={week.href} href={week.href as Href} style={styles.link}>
+          <Text style={styles.linkText}>{week.label}</Text>
+        </Link>
+      ))}
     </View>
   );
 }
