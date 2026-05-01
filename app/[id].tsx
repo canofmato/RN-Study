@@ -3,6 +3,7 @@ import { Text, View } from "react-native";
 // 실제 실습 내용이 담긴 컴포넌트들 임포트
 import Week2 from "../components/week2";
 import Week3 from "../components/week3";
+import Week5 from "../components/week5";
 
 export default function DetailGate() {
   const { id } = useLocalSearchParams();
@@ -14,6 +15,8 @@ export default function DetailGate() {
         return <Week2 />;
       case "week3":
         return <Week3 />;
+      case "week5":
+        return <Week5 />;
       default:
         return (
           <View
