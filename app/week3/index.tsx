@@ -91,7 +91,7 @@ function Week3ScreenContent({
         >
           <KeyboardAvoidingView
             style={{ flex: 1, width: "100%" }}
-            behavior={Platform.OS === "ios" ? "padding" : "height"}
+            behavior={Platform.select({ ios: "padding", android: "height" })}
             keyboardVerticalOffset={Platform.OS === "ios" ? insets.top : 0}
           >
             <ScrollView
