@@ -2,11 +2,11 @@ import { useCallback, useEffect, useState } from "react";
 import {
   ActivityIndicator,
   Pressable,
-  SafeAreaView,
   StyleSheet,
   Text,
   View,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const API_KEY = "1ed003a53147f9aa3fd66aedc9a62c8a";
 const CITY = "Seoul";
