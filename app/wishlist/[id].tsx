@@ -2,8 +2,18 @@ import BackIcon from '@/assets/images/back.svg';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useEffect, useMemo, useState } from 'react';
-import { Alert, Pressable, ScrollView, Text, TextInput, View } from 'react-native';
+import {
+  Alert,
+  KeyboardAvoidingView,
+  Platform,
+  Pressable,
+  ScrollView,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
 import { Calendar } from 'react-native-calendars';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 type WishItem = {
   id: string;
@@ -41,10 +51,7 @@ function getDateRange(startDate: string, endDate: string) {
   return dates;
 }
 
-function buildMarkedDates(
-  startDate: string | null,
-  endDate: string | null
-): MarkedDates {
+function buildMarkedDates(startDate: string, endDate: string): MarkedDates {
   if (!startDate) return {};
 
   if (!endDate || startDate === endDate) {
@@ -62,24 +69,12 @@ function buildMarkedDates(
   const result: MarkedDates = {};
 
   range.forEach((date, index) => {
-    if (index === 0) {
-      result[date] = {
-        startingDay: true,
-        color: '#3B82F6',
-        textColor: 'white',
-      };
-    } else if (index === range.length - 1) {
-      result[date] = {
-        endingDay: true,
-        color: '#3B82F6',
-        textColor: 'white',
-      };
-    } else {
-      result[date] = {
-        color: '#93C5FD',
-        textColor: 'white',
-      };
-    }
+    result[date] = {
+      startingDay: index === 0,
+      endingDay: index === range.length - 1,
+      color: index === 0 || index === range.length - 1 ? '#3B82F6' : '#93C5FD',
+      textColor: 'white',
+    };
   });
 
   return result;
@@ -88,8 +83,8 @@ function buildMarkedDates(
 export default function WishDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const [item, setItem] = useState<WishItem | null>(null);
-  const [startDate, setStartDate] = useState<string>('');
-  const [endDate, setEndDate] = useState<string>('');
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
   const [memo, setMemo] = useState('');
 
   useEffect(() => {
@@ -118,7 +113,7 @@ export default function WishDetailScreen() {
   const handleDayPress = (day: { dateString: string }) => {
     const selectedDate = day.dateString;
 
-    if (!startDate || (startDate && endDate)) {
+    if (!startDate || endDate) {
       setStartDate(selectedDate);
       setEndDate('');
       return;
@@ -156,8 +151,13 @@ export default function WishDetailScreen() {
       );
 
       await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
-      Alert.alert('저장 완료', '상세 내용이 저장되었습니다.');
-      router.back();
+
+      Alert.alert('저장 완료', '상세 내용이 저장되었습니다.', [
+        {
+          text: '확인',
+          onPress: () => router.back(),
+        },
+      ]);
     } catch (error) {
       console.log('상세 저장 실패:', error);
     }
@@ -165,69 +165,84 @@ export default function WishDetailScreen() {
 
   if (!item) {
     return (
-      <View className="flex-1 items-center justify-center bg-white">
-        <Text>항목을 불러오는 중입니다...</Text>
-      </View>
+      <SafeAreaView className="flex-1 bg-white" edges={['top', 'bottom']}>
+        <View className="flex-1 items-center justify-center">
+          <Text>항목을 불러오는 중입니다...</Text>
+        </View>
+      </SafeAreaView>
     );
   }
 
   return (
-    <ScrollView className="flex-1 bg-white px-4 pt-[60px]">
-      <Pressable onPress={() => router.back()}>
-        <BackIcon width={24} height={24} />
-      </Pressable>
-
-      <Text className="mt-6 text-[28px] font-bold">{item.text}</Text>
-
-      <View className="mt-6 rounded-2xl border border-gray-200 p-4">
-        <Text className="mt-4 text-[14px] text-gray-500">상태</Text>
-        <Text className="mt-1 text-[16px]">
-          {item.completed ? '완료' : '진행중'}
-        </Text>
-
-        <Text className="mt-4 text-[14px] text-gray-500">시작일</Text>
-        <Text className="mt-1 text-[16px]">{startDate || '선택 전'}</Text>
-
-        <Text className="mt-4 text-[14px] text-gray-500">종료일</Text>
-        <Text className="mt-1 text-[16px]">{endDate || '선택 전'}</Text>
-      </View>
-
-      <View className="mt-6 rounded-2xl border border-gray-200 p-4">
-        <Text className="mb-4 text-[18px] font-semibold">기간 선택</Text>
-
-        <Calendar
-          markingType="period"
-          markedDates={markedDates}
-          onDayPress={handleDayPress}
-          enableSwipeMonths
-          theme={{
-            todayTextColor: '#3B82F6',
-            arrowColor: '#3B82F6',
-            monthTextColor: '#111827',
-            textDayFontSize: 16,
-            textMonthFontSize: 18,
-            textDayHeaderFontSize: 13,
-          }}
-        />
-      </View>
-
-      <View className="mt-6 mb-10 rounded-2xl border border-gray-200 p-4">
-        <Text className="mb-3 text-[18px] font-semibold">메모</Text>
-        <TextInput
-          value={memo}
-          onChangeText={setMemo}
-          placeholder="이 목표에 대한 메모를 적어보세요"
-          multiline
-          textAlignVertical="top"
-          className="min-h-[120px] rounded-xl border border-gray-300 p-3"
-        />
-      </View>
-      <Pressable
-        className="mt-6 mb-10 items-center rounded-xl bg-blue-500 py-4"
-        onPress={saveDetail}
+    <SafeAreaView className="flex-1 bg-white" edges={['top', 'bottom']}>
+      <KeyboardAvoidingView
+        className="flex-1"
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
-        <Text className="text-[16px] font-semibold text-white">저장하기</Text>
-      </Pressable>
-    </ScrollView>
+        <ScrollView
+          className="flex-1 px-4"
+          keyboardShouldPersistTaps="handled"
+          contentContainerStyle={{ paddingBottom: 24 }}
+        >
+          <Pressable onPress={() => router.back()} className="h-10 justify-center">
+            <BackIcon width={24} height={24} />
+          </Pressable>
+
+          <Text className="mt-3 text-[28px] font-bold">{item.text}</Text>
+
+          <View className="mt-6 rounded-2xl border border-gray-200 p-4">
+            <Text className="text-[14px] text-gray-500">상태</Text>
+            <Text className="mt-1 text-[16px]">
+              {item.completed ? '완료' : '진행중'}
+            </Text>
+
+            <Text className="mt-4 text-[14px] text-gray-500">시작일</Text>
+            <Text className="mt-1 text-[16px]">{startDate || '선택 전'}</Text>
+
+            <Text className="mt-4 text-[14px] text-gray-500">종료일</Text>
+            <Text className="mt-1 text-[16px]">{endDate || '선택 전'}</Text>
+          </View>
+
+          <View className="mt-6 rounded-2xl border border-gray-200 p-4">
+            <Text className="mb-4 text-[18px] font-semibold">기간 선택</Text>
+
+            <Calendar
+              markingType="period"
+              markedDates={markedDates}
+              onDayPress={handleDayPress}
+              enableSwipeMonths
+              theme={{
+                todayTextColor: '#3B82F6',
+                arrowColor: '#3B82F6',
+                monthTextColor: '#111827',
+                textDayFontSize: 16,
+                textMonthFontSize: 18,
+                textDayHeaderFontSize: 13,
+              }}
+            />
+          </View>
+
+          <View className="mt-6 rounded-2xl border border-gray-200 p-4">
+            <Text className="mb-3 text-[18px] font-semibold">메모</Text>
+
+            <TextInput
+              value={memo}
+              onChangeText={setMemo}
+              placeholder="이 목표에 대한 메모를 적어보세요"
+              multiline
+              textAlignVertical="top"
+              className="min-h-[120px] rounded-xl border border-gray-300 p-3"
+            />
+          </View>
+
+          <Pressable
+            className="mt-6 items-center rounded-xl bg-blue-500 py-4"
+            onPress={saveDetail}
+          >
+            <Text className="text-[16px] font-semibold text-white">저장하기</Text>
+          </Pressable>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 }
