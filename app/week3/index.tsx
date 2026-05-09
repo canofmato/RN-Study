@@ -12,7 +12,6 @@ import {
   View,
 } from "react-native";
 import {
-  SafeAreaProvider,
   SafeAreaView,
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
@@ -50,15 +49,13 @@ export default function Week3Screen() {
   }
 
   return (
-    <SafeAreaProvider style={{ flex: 1 }}>
-      <Week3ScreenContent
-        wishText={wishText}
-        setWishText={setWishText}
-        wishList={wishList}
-        onAddWish={handleAddWish}
-        onDeleteWish={handleDeleteWish}
-      />
-    </SafeAreaProvider>
+    <Week3ScreenContent
+      wishText={wishText}
+      setWishText={setWishText}
+      wishList={wishList}
+      onAddWish={handleAddWish}
+      onDeleteWish={handleDeleteWish}
+    />
   );
 }
 
