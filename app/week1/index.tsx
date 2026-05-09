@@ -1,5 +1,7 @@
+import { useFonts } from 'expo-font';
 import { StyleSheet, Text, View, Image, ImageBackground, ImageStyle, TouchableOpacity, Linking } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+
 const background = require('../../assets/week1/background.png');
 const name = require('../../assets/week1/name.png');
 const ticket = require('../../assets/week1/ticket.png');
@@ -9,9 +11,6 @@ const instagram = require('../../assets/week1/instagram.png');
 const github = require('../../assets/week1/github.png');
 const velog = require('../../assets/week1/velog.png');
 const siri = require('../../assets/week1/siri.png');
-
-import { useFonts } from 'expo-font';
-
 
 export default function Week1Screen() {
   const [fontsLoaded] = useFonts({
