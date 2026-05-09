@@ -5,6 +5,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 const PROJECTS = [
   { id: "week2" as const, title: "인스타그램 레이아웃" },
   { id: "week3" as const, title: "할 일 목록 만들기" },
+  { id: "week5" as const, title: "API 관련 실습" },
 ];
 
 export default function HomeScreen() {
@@ -38,7 +39,7 @@ export default function HomeScreen() {
                 }}
               >
                 <Text style={{ fontSize: 12, color: "#888", marginBottom: 4 }}>
-                  {item.id}주차
+                  {item.id}
                 </Text>
                 <Text
                   style={{ fontSize: 16, fontWeight: "500", color: "#111" }}
