@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Modal, Pressable, ScrollView, Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import CloseIcon from "../assets/images/X.svg";
 import Card from "./Card";
 
@@ -32,7 +33,10 @@ export default function WishList({
   return (
     <Modal visible={visible} animationType="fade" transparent>
       <View className="flex-1 bg-wish/50 items-center justify-center">
-        <View className="w-[360px] flex-col gap-8 p-5 items-center rounded-[30px] bg-white">
+        <SafeAreaView
+          className="w-[360px] flex-col gap-8 p-5 items-center rounded-[30px] bg-white"
+          edges={["top", "bottom"]}
+        >
           {/* header */}
           <View className="w-full flex-row items-center justify-between">
             <Text className="text-[20px] font-semibold text-black">
@@ -84,7 +88,7 @@ export default function WishList({
               />
             </View>
           </View>
-        </View>
+        </SafeAreaView>
       </View>
     </Modal>
   );

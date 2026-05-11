@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import Bookmark from "../assets/images/Bookmark.svg";
 import ChatBubble from "../assets/images/chat_bubble.svg";
 import ChevronLeft from "../assets/images/Chevron-left.svg";
@@ -22,7 +23,10 @@ export default function MoreScreen() {
   const [isLiked, setIsLiked] = useState(false);
 
   return (
-    <View className="flex-1 flex-col py-[50px] bg-white">
+    <SafeAreaView
+      className="flex-1 flex-col bg-white"
+      edges={["top", "bottom"]}
+    >
       {/* header */}
       <View className="flex-row px-3 py-4 items-center justify-between border-b border-b-gray">
         <TouchableOpacity
@@ -116,6 +120,6 @@ export default function MoreScreen() {
         </View>
         <Text className="text-body text-gray-500">March 25</Text>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }

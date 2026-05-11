@@ -11,6 +11,7 @@ import {
   View,
   useWindowDimensions,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import Cart from "../assets/images/Cart.svg";
 import Home from "../assets/images/Home.svg";
 import Plus from "../assets/images/Plus.svg";
@@ -75,7 +76,10 @@ export default function WishScreen() {
   };
 
   return (
-    <View className="relative flex-1 bg-white items-center justify-center">
+    <SafeAreaView
+      className="relative flex-1 bg-white items-center justify-center"
+      edges={["top", "bottom"]}
+    >
       <Link href={"/"} asChild>
         <Pressable
           style={{
@@ -171,6 +175,6 @@ export default function WishScreen() {
         onClose={() => setIsListOpen(false)}
         onToggleItem={wishDone}
       />
-    </View>
+    </SafeAreaView>
   );
 }
