@@ -1,5 +1,6 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Text, TouchableOpacity, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import Barcode from "../assets/images/Barcode.svg";
 import CartMini from "../assets/images/CartMini.svg";
 import ChevronLeft from "../assets/images/Chevron-left.svg";
@@ -24,7 +25,10 @@ export default function WishDetailScreen() {
   };
 
   return (
-    <View className="flex-1 flex-col gap-[50px] py-[60px] bg-wish/50 items-center justify-start">
+    <SafeAreaView
+      className="flex-1 flex-col gap-[50px] bg-wish/50 items-center justify-start"
+      edges={["top", "bottom"]}
+    >
       {/* header */}
       <View className="w-full flex-row pl-5 py-4 pr-[30px] items-center justify-between">
         <TouchableOpacity
@@ -115,6 +119,6 @@ export default function WishDetailScreen() {
           </TouchableOpacity>
         </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
