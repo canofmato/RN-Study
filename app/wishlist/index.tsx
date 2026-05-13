@@ -3,7 +3,17 @@ import CheckIcon from '@/assets/images/check.svg';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { FlatList, KeyboardAvoidingView, Platform, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import { 
+  FlatList, 
+  KeyboardAvoidingView, 
+  Platform, 
+  Pressable, 
+  StyleSheet, 
+  Text, 
+  TextInput, 
+  View 
+} from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 type WishItem = {
   id: string;
