@@ -200,7 +200,7 @@ function Week3ScreenContent({
                 key={`${wish}-${index}`}
                 onPress={() =>
                   router.push(
-                    `/week3/detail?wish=${encodeURIComponent(wish)}&index=${index}`
+                    `/wishlist/detail?wish=${encodeURIComponent(wish)}&index=${index}`
                   )
                 }
                 onLongPress={() => onDeleteWish(index)}
