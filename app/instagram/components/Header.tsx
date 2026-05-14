@@ -2,9 +2,9 @@ import { Image } from 'expo-image';
 import { StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-const instagramLogo = require('@/assets/week2/Instagram Logo.png');
-const profileAvatar = require('@/assets/week2/profile.png');
-const moreIcon = require('@/assets/week2/MoreIcon.png');
+const instagramLogo = require('@/assets/instagram/Instagram Logo.png');
+const profileAvatar = require('@/assets/instagram/profile.png');
+const moreIcon = require('@/assets/instagram/MoreIcon.png');
 
 
 export function Header() {

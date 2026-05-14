@@ -16,11 +16,11 @@ import {
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
 
-import Blueheart from "../../assets/week3/blueheart.svg";
-import Click from "../../assets/week3/click.svg";
-import Eclipse from "../../assets/week3/eclipse.svg";
-import Input from "../../assets/week3/input.svg";
-import Phone from "../../assets/week3/phone.svg";
+import Blueheart from "../../assets/wishlist/blueheart.svg";
+import Click from "../../assets/wishlist/click.svg";
+import Eclipse from "../../assets/wishlist/eclipse.svg";
+import Input from "../../assets/wishlist/input.svg";
+import Phone from "../../assets/wishlist/phone.svg";
 
 export default function Week3Screen() {
   const [wishText, setWishText] = useState("");
