@@ -1,9 +1,11 @@
 import BackIcon from '@/assets/images/back.svg';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as ImagePicker from 'expo-image-picker';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useEffect, useMemo, useState } from 'react';
 import {
   Alert,
+  Image,
   KeyboardAvoidingView,
   Platform,
   Pressable,
@@ -22,6 +24,7 @@ type WishItem = {
   startDate?: string;
   endDate?: string;
   memo?: string;
+  imageUri?: string;
 };
 
 type MarkedDates = {
@@ -86,6 +89,7 @@ export default function WishDetailScreen() {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [memo, setMemo] = useState('');
+  const [imageUri, setImageUri] = useState('');
 
   useEffect(() => {
     loadItem();
@@ -104,6 +108,7 @@ export default function WishDetailScreen() {
         setStartDate(found.startDate ?? '');
         setEndDate(found.endDate ?? '');
         setMemo(found.memo ?? '');
+        setImageUri(found.imageUri ?? '');
       }
     } catch (error) {
       console.log('상세 불러오기 실패:', error);
@@ -132,6 +137,29 @@ export default function WishDetailScreen() {
     return buildMarkedDates(startDate, endDate);
   }, [startDate, endDate]);
 
+  const pickImage = async () => {
+    const permissionResult =
+      await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+    if (!permissionResult.granted) {
+      Alert.alert(
+        '권한 필요',
+        '사진을 선택하려면 갤러리 접근 권한이 필요합니다.'
+      );
+      return;
+    }
+
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ['images'],
+      allowsEditing: true,
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      setImageUri(result.assets[0].uri);
+    }
+  };
+
   const saveDetail = async () => {
     try {
       const stored = await AsyncStorage.getItem(STORAGE_KEY);
@@ -146,6 +174,7 @@ export default function WishDetailScreen() {
               startDate,
               endDate,
               memo,
+              imageUri,
             }
           : wish
       );
@@ -221,7 +250,26 @@ export default function WishDetailScreen() {
               }}
             />
           </View>
+          <View className="mt-6 rounded-2xl border border-gray-200 p-4">
+            <Text className="mb-3 text-[18px] font-semibold">사진</Text>
 
+            <Pressable
+              className="items-center rounded-xl bg-gray-100 py-4"
+              onPress={pickImage}
+            >
+              <Text className="text-[15px] font-semibold text-gray-700">
+                갤러리에서 사진 선택하기
+              </Text>
+            </Pressable>
+
+            {imageUri && (
+              <Image
+                source={{ uri: imageUri }}
+                className="mt-4 h-56 w-full rounded-xl"
+                resizeMode="cover"
+              />
+            )}
+          </View>
           <View className="mt-6 rounded-2xl border border-gray-200 p-4">
             <Text className="mb-3 text-[18px] font-semibold">메모</Text>
 
