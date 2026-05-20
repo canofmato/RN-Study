@@ -1,7 +1,8 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFonts } from "expo-font";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import {
   KeyboardAvoidingView,
   Platform,
@@ -16,15 +17,49 @@ import {
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
 
-import Blueheart from "../../assets/week3/blueheart.svg";
-import Click from "../../assets/week3/click.svg";
-import Eclipse from "../../assets/week3/eclipse.svg";
-import Input from "../../assets/week3/input.svg";
-import Phone from "../../assets/week3/phone.svg";
+import Blueheart from "../../assets/wishlist/blueheart.svg";
+import Click from "../../assets/wishlist/click.svg";
+import Eclipse from "../../assets/wishlist/eclipse.svg";
+import Input from "../../assets/wishlist/input.svg";
+import Phone from "../../assets/wishlist/phone.svg";
 
-export default function Week3Screen() {
+const WISHLIST_STORAGE_KEY = "@wishlist/items";
+
+export default function WishlistScreen() {
   const [wishText, setWishText] = useState("");
   const [wishList, setWishList] = useState<string[]>([]);
+
+  useEffect(() => {
+    const loadWishlist = async () => {
+      try {
+        const storedWishlist = await AsyncStorage.getItem(WISHLIST_STORAGE_KEY);
+
+        if (!storedWishlist) {
+          return;
+        }
+
+        const parsedWishlist: unknown = JSON.parse(storedWishlist);
+
+        if (
+          Array.isArray(parsedWishlist) &&
+          parsedWishlist.every((item) => typeof item === "string")
+        ) {
+          setWishList(parsedWishlist);
+        }
+      } catch (error) {
+        console.warn("Failed to load wishlist", error);
+      }
+    };
+
+    loadWishlist();
+  }, []);
+
+  const saveWishlist = (nextWishList: string[]) => {
+    AsyncStorage.setItem(
+      WISHLIST_STORAGE_KEY,
+      JSON.stringify(nextWishList)
+    ).catch((error) => console.warn("Failed to save wishlist", error));
+  };
 
   const handleAddWish = () => {
     const trimmed = wishText.trim();
@@ -32,12 +67,20 @@ export default function Week3Screen() {
       return;
     }
 
-    setWishList((prev) => [...prev, trimmed]);
+    setWishList((prev) => {
+      const nextWishList = [...prev, trimmed];
+      saveWishlist(nextWishList);
+      return nextWishList;
+    });
     setWishText("");
   };
 
   const handleDeleteWish = (targetIndex: number) => {
-    setWishList((prev) => prev.filter((_, index) => index !== targetIndex));
+    setWishList((prev) => {
+      const nextWishList = prev.filter((_, index) => index !== targetIndex);
+      saveWishlist(nextWishList);
+      return nextWishList;
+    });
   };
 
   const [fontsLoaded] = useFonts({
@@ -200,7 +243,7 @@ function Week3ScreenContent({
                 key={`${wish}-${index}`}
                 onPress={() =>
                   router.push(
-                    `/week3/detail?wish=${encodeURIComponent(wish)}&index=${index}`
+                    `/wishlist/detail?wish=${encodeURIComponent(wish)}&index=${index}`
                   )
                 }
                 onLongPress={() => onDeleteWish(index)}
