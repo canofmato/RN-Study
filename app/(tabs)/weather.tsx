@@ -3,6 +3,7 @@ import { IslandMoments_400Regular } from '@expo-google-fonts/island-moments';
 import React, { useCallback, useEffect, useState } from 'react';
 import {
   ActivityIndicator,
+  Image,
   Pressable,
   StyleSheet,
   Text,
@@ -51,6 +52,7 @@ type WeatherState = {
   humidity: number;
   windSpeed: number;
   description: string;
+  iconCode: string;
 };
 
 const DEFAULT_CITY = '서울';
@@ -141,6 +143,42 @@ const koreanCityAliases: Record<string, string> = {
 
 function getWeatherDescription(code: number) {
   return weatherDescriptions[code] ?? '날씨 정보';
+}
+
+function getWeatherIconCode(code: number) {
+  if (code === 0) {
+    return '01d';
+  }
+
+  if (code === 1) {
+    return '02d';
+  }
+
+  if (code === 2) {
+    return '03d';
+  }
+
+  if (code === 3) {
+    return '04d';
+  }
+
+  if (code === 45 || code === 48) {
+    return '50d';
+  }
+
+  if ([51, 53, 55, 61, 63, 65, 80, 81, 82].includes(code)) {
+    return '10d';
+  }
+
+  if ([71, 73, 75].includes(code)) {
+    return '13d';
+  }
+
+  if (code === 95) {
+    return '11d';
+  }
+
+  return '02d';
 }
 
 function getLocationQueries(cityName: string) {
@@ -263,6 +301,7 @@ export default function WeatherScreen() {
         humidity: current.relative_humidity_2m,
         windSpeed: current.wind_speed_10m,
         description: getWeatherDescription(current.weather_code),
+        iconCode: getWeatherIconCode(current.weather_code),
       });
     } catch (error) {
       setWeather(null);
@@ -308,6 +347,11 @@ export default function WeatherScreen() {
         ) : weather ? (
           <>
             <Text style={styles.place}>{weather.place}</Text>
+            <Image
+              style={styles.weatherImage}
+              source={{ uri: `https://openweathermap.org/img/wn/${weather.iconCode}@4x.png` }}
+              accessibilityLabel={`${weather.description} 날씨 이미지`}
+            />
             <Text style={styles.temperature}>{weather.temperature}°C</Text>
             <Text style={styles.description}>{weather.description}</Text>
 
@@ -399,10 +443,16 @@ const styles = StyleSheet.create({
   temperature: {
     color: '#602BFF',
     fontFamily: 'gaegu',
-    fontSize: 78,
-    lineHeight: 88,
+    fontSize: 68,
+    lineHeight: 76,
     textAlign: 'center',
-    marginTop: 12,
+    marginTop: 4,
+  },
+  weatherImage: {
+    width: 132,
+    height: 132,
+    alignSelf: 'center',
+    marginTop: 6,
   },
   description: {
     color: '#5C4D86',

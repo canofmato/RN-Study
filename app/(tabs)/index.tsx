@@ -4,7 +4,18 @@ import { useWishlist, type WishlistItem } from '@/components/wishlist-context';
 import * as SplashScreen from 'expo-splash-screen';
 import { useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
-import { Alert, FlatList, Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import {
+  Alert,
+  FlatList,
+  Image,
+  Keyboard,
+  Platform,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -16,12 +27,32 @@ export default function WishlistScreen() {
     'gaegu': Gaegu_400Regular,
   });
   const [newItem, setNewItem] = useState('');
+  const [keyboardBottom, setKeyboardBottom] = useState(0);
+  const [containerHeight, setContainerHeight] = useState(0);
 
   useEffect(() => {
     if (fontsLoaded) {
       SplashScreen.hideAsync();
     }
   }, [fontsLoaded]);
+
+  useEffect(() => {
+    const showEvent = Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow';
+    const hideEvent = Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide';
+
+    const showSubscription = Keyboard.addListener(showEvent, (event) => {
+      const keyboardOverlap = Math.max(containerHeight - event.endCoordinates.screenY, 0);
+      setKeyboardBottom(keyboardOverlap + 8);
+    });
+    const hideSubscription = Keyboard.addListener(hideEvent, () => {
+      setKeyboardBottom(0);
+    });
+
+    return () => {
+      showSubscription.remove();
+      hideSubscription.remove();
+    };
+  }, [containerHeight]);
 
   if (!fontsLoaded) {
     return null;
@@ -63,7 +94,9 @@ export default function WishlistScreen() {
   );
 
   return (
-    <View style={styles.container}>
+    <View
+      style={styles.container}
+      onLayout={(event) => setContainerHeight(event.nativeEvent.layout.height)}>
       <View style={styles.background} />
 
       <View style={styles.header}>
@@ -86,7 +119,11 @@ export default function WishlistScreen() {
         />
       </View>
 
-      <View style={styles.inputContainer}>
+      <View
+        style={[
+          styles.inputContainer,
+          { bottom: keyboardBottom || 32 },
+        ]}>
         <TextInput
           style={styles.input}
           placeholder=""
@@ -130,7 +167,8 @@ const styles = StyleSheet.create({
   },
   listContent: {
     paddingHorizontal: 24,
-    paddingVertical: 12,
+    paddingTop: 12,
+    paddingBottom: 112,
     gap: 16,
   },
   itemCard: {
@@ -175,9 +213,11 @@ const styles = StyleSheet.create({
     opacity: 0.6,
   },
   inputContainer: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
     flexDirection: 'row',
     paddingHorizontal: 24,
-    paddingBottom: 56,
     gap: 12,
     alignItems: 'center',
   },
