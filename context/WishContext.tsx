@@ -1,5 +1,5 @@
-import React, { createContext, useContext, useState } from "react";
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import React, { createContext, useContext, useEffect, useState } from "react";
 // 데이터 타입 정의
 interface WishItem {
   id: number;
@@ -24,6 +24,39 @@ const WishContext = createContext<WishContextType | undefined>(undefined);
 
 export function WishProvider({ children }: { children: React.ReactNode }) {
   const [wishList, setWishList] = useState<WishItem[]>([]);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  // 앱 시작시 데이터 불러오기
+  useEffect(() => {
+    const loadWishes = async () => {
+      try {
+        const savedWishes = await AsyncStorage.getItem("@my_wishes");
+        if (savedWishes !== null) {
+          setWishList(JSON.parse(savedWishes));
+        }
+      } catch (e) {
+        console.error("데이터 불러오기 실패", e);
+      } finally {
+        setIsLoaded(true);
+      }
+    };
+    loadWishes();
+  }, []);
+
+  // 데이터가 변할 때마다 자동 저장
+  useEffect(() => {
+    const saveWishes = async () => {
+      if (isLoaded) {
+        try {
+          const jsonValue = JSON.stringify(wishList);
+          await AsyncStorage.setItem("@my_wishes", jsonValue);
+        } catch (e) {
+          console.log("데이터 저장 실패", e);
+        }
+      }
+    };
+    saveWishes();
+  }, [wishList, isLoaded]);
 
   const addWish = (newWish: WishItem) => {
     setWishList((prev) => [...prev, newWish]);
@@ -45,7 +78,7 @@ export function WishProvider({ children }: { children: React.ReactNode }) {
     <WishContext.Provider
       value={{ wishList, setWishList, addWish, toggleWish, deleteWish }}
     >
-      {children}
+      {isLoaded ? children : null}
     </WishContext.Provider>
   );
 }
