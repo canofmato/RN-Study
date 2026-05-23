@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import {
   Alert,
+  Animated,
   FlatList,
   Text,
   TextInput,
@@ -9,6 +10,7 @@ import {
 } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { useTodoList } from "./hooks/useTodoList";
+import { TodoItem } from "./TodoItem";
 import { colors, styles } from "./week3Styles";
 
 export default function Week3Screen() {
@@ -16,12 +18,40 @@ export default function Week3Screen() {
     useTodoList();
   const [input, setInput] = useState("");
 
+  // 아이템별 fade-in 애니메이션 값을 Map으로 관리
+  const fadeAnims = useRef<Map<string, Animated.Value>>(new Map()).current;
+
+  const getOrCreateFadeAnim = (id: string): Animated.Value => {
+    if (!fadeAnims.has(id)) {
+      const anim = new Animated.Value(0);
+      fadeAnims.set(id, anim);
+      // 새로 생성된 경우 fade-in 실행
+      Animated.timing(anim, {
+        toValue: 1,
+        duration: 400,
+        useNativeDriver: true,
+      }).start();
+    }
+    return fadeAnims.get(id)!;
+  };
+
   const handleAdd = () => {
     addItem(input);
     setInput("");
   };
 
-  // 날짜, 요일!
+  const handleRemove = (id: string) => {
+    fadeAnims.delete(id); // 메모리 정리
+    removeItem(id);
+  };
+
+  const handleClearDone = () => {
+    // 완료된 항목 anim 정리
+    items.filter((i) => i.done).forEach((i) => fadeAnims.delete(i.id));
+    clearDone();
+  };
+
+  // 날짜, 요일
   const today = new Date();
   const days = ["일", "월", "화", "수", "목", "금", "토"];
   const dateString = `${today.getMonth() + 1}월 ${today.getDate()}일 ${days[today.getDay()]}요일`;
@@ -62,51 +92,12 @@ export default function Week3Screen() {
             <Text style={styles.emptyText}>할 일을 입력하세요 ✍️</Text>
           )}
           renderItem={({ item }) => (
-            <View style={styles.listItem}>
-              <TouchableOpacity
-                onPress={() => toggleItem(item.id)}
-                style={[
-                  styles.checkButton,
-                  {
-                    borderWidth: item.done ? 0 : 1.5,
-                    backgroundColor: item.done ? colors.blueMid : "transparent",
-                  },
-                ]}
-              >
-                {item.done && <Text style={styles.checkText}>✓</Text>}
-              </TouchableOpacity>
-
-              <Text
-                style={[
-                  styles.itemText,
-                  {
-                    color: item.done ? colors.blueLight : colors.navy,
-                    textDecorationLine: item.done ? "line-through" : "none",
-                  },
-                ]}
-              >
-                {item.text}
-              </Text>
-
-              <TouchableOpacity
-                onPress={() => {
-                  if (!item.done) {
-                    Alert.alert(
-                      "아직 완료하지 않았어요🤔",
-                      `'${item.text}'를 정말 삭제하시겠습니까?`,
-                      [
-                        { text: "아니오", style: "cancel" },
-                        { text: "예", onPress: () => removeItem(item.id) },
-                      ],
-                    );
-                  } else {
-                    removeItem(item.id);
-                  }
-                }}
-              >
-                <Text style={styles.deleteButton}>×</Text>
-              </TouchableOpacity>
-            </View>
+            <TodoItem
+              item={item}
+              fadeAnim={getOrCreateFadeAnim(item.id)}
+              onToggle={() => toggleItem(item.id)}
+              onRemove={() => handleRemove(item.id)}
+            />
           )}
         />
 
@@ -119,7 +110,7 @@ export default function Week3Screen() {
                   "완료된 할 일을 모두 삭제하시겠습니까?",
                   [
                     { text: "아니오", style: "cancel" },
-                    { text: "예", onPress: clearDone },
+                    { text: "예", onPress: handleClearDone },
                   ],
                 );
               }}

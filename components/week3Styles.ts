@@ -8,6 +8,8 @@ export const colors = {
   bluePale: "#E6F1FB",
   white: "#fff",
   text: "#042C53",
+  deleteRed: "#E53E3E",
+  deleteRedLight: "#FFF5F5",
 };
 
 export const styles = StyleSheet.create({
@@ -41,8 +43,8 @@ export const styles = StyleSheet.create({
     fontSize: 18,
     color: "#4A4A4A",
     paddingHorizontal: 20,
-    marginTop: 14, // 헤더와의 간격
-    marginBottom: 8, // 입력창과의 간격
+    marginTop: 14,
+    marginBottom: 8,
   },
   inputRow: {
     paddingHorizontal: 20,
@@ -77,6 +79,34 @@ export const styles = StyleSheet.create({
   listContent: {
     paddingHorizontal: 20,
   },
+
+  swipeContainer: {
+    position: "relative",
+    overflow: "hidden",
+  },
+  deleteAction: {
+    position: "absolute",
+    right: 0,
+    top: 0,
+    bottom: 0,
+    width: 56,
+    backgroundColor: colors.deleteRed,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 6,
+  },
+  deleteActionButton: {
+    flex: 1,
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  deleteActionText: {
+    color: colors.white,
+    fontSize: 12,
+    fontWeight: "600",
+  },
+
   separator: {
     height: 0.5,
     backgroundColor: colors.bluePale,
@@ -86,6 +116,7 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     gap: 12,
     paddingVertical: 13,
+    backgroundColor: colors.white, // swipe 시 뒤 배경 가리기 위해 필요
   },
   checkButton: {
     width: 22,
@@ -103,11 +134,6 @@ export const styles = StyleSheet.create({
   itemText: {
     flex: 1,
     fontSize: 15,
-  },
-  deleteButton: {
-    fontSize: 18,
-    color: colors.blueLight,
-    lineHeight: 22,
   },
   footer: {
     borderTopWidth: 0.5,
