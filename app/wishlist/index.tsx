@@ -2,8 +2,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFonts } from "expo-font";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import {
+  Animated,
   KeyboardAvoidingView,
   Platform,
   Pressable,
@@ -239,24 +240,17 @@ function Week3ScreenContent({
 
           <View className="mt-12 w-[80%] gap-8">
             {wishList.map((wish, index) => (
-              <Pressable
+              <WishlistItem
                 key={`${wish}-${index}`}
+                wish={wish}
+                index={index}
                 onPress={() =>
                   router.push(
                     `/wishlist/detail?wish=${encodeURIComponent(wish)}&index=${index}`
                   )
                 }
-                onLongPress={() => onDeleteWish(index)}
-                delayLongPress={250}
-                className="flex-row items-center gap-3"
-              >
-                {index % 2 === 0 ? (
-                  <Phone width={40} height={60} />
-                ) : (
-                  <Blueheart width={64} height={60} />
-                )}
-                <Text className="text-3xl">{wish}</Text>
-              </Pressable>
+                onDelete={() => onDeleteWish(index)}
+              />
             ))}
           </View>
 
@@ -293,5 +287,54 @@ function Week3ScreenContent({
           </KeyboardAvoidingView>
         </LinearGradient>
     </SafeAreaView>
+  );
+}
+
+type WishlistItemProps = {
+  wish: string;
+  index: number;
+  onPress: () => void;
+  onDelete: () => void;
+};
+
+function WishlistItem({ wish, index, onPress, onDelete }: WishlistItemProps) {
+  const fade = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    Animated.timing(fade, {
+      toValue: 1,
+      duration: 220,
+      useNativeDriver: true,
+    }).start();
+  }, [fade]);
+
+  return (
+    <Animated.View
+      style={{
+        opacity: fade,
+        transform: [
+          {
+            translateY: fade.interpolate({
+              inputRange: [0, 1],
+              outputRange: [8, 0],
+            }),
+          },
+        ],
+      }}
+    >
+      <Pressable
+        onPress={onPress}
+        onLongPress={onDelete}
+        delayLongPress={250}
+        className="flex-row items-center gap-3"
+      >
+        {index % 2 === 0 ? (
+          <Phone width={40} height={60} />
+        ) : (
+          <Blueheart width={64} height={60} />
+        )}
+        <Text className="text-3xl">{wish}</Text>
+      </Pressable>
+    </Animated.View>
   );
 }
