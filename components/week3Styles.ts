@@ -37,9 +37,17 @@ export const styles = StyleSheet.create({
     fontSize: 13,
     color: colors.blueLight,
   },
+  dateText: {
+    fontSize: 18,
+    color: "#4A4A4A",
+    paddingHorizontal: 20,
+    marginTop: 14, // 헤더와의 간격
+    marginBottom: 8, // 입력창과의 간격
+  },
   inputRow: {
     paddingHorizontal: 20,
-    paddingVertical: 16,
+    paddingTop: 8,
+    paddingBottom: 16,
     flexDirection: "row",
     gap: 8,
   },
@@ -114,5 +122,11 @@ export const styles = StyleSheet.create({
     fontSize: 12,
     color: colors.blueMid,
     fontWeight: "500",
+  },
+  emptyText: {
+    textAlign: "center",
+    marginTop: 200,
+    fontSize: 20,
+    color: colors.blueLight,
   },
 });

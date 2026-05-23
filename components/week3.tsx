@@ -1,55 +1,34 @@
 import { useState } from "react";
 import {
-    FlatList,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  Alert,
+  FlatList,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import { useTodoList } from "./hooks/useTodoList";
 import { colors, styles } from "./week3Styles";
 
-type WishItem = {
-  id: string;
-  text: string;
-  done: boolean;
-};
-
 export default function Week3Screen() {
-  const [items, setItems] = useState<WishItem[]>([]);
+  const { items, doneCount, addItem, toggleItem, removeItem, clearDone } =
+    useTodoList();
   const [input, setInput] = useState("");
 
-  const addItem = () => {
-    if (!input.trim()) return;
-    setItems((prev) => [
-      ...prev,
-      { id: Date.now().toString(), text: input.trim(), done: false },
-    ]);
+  const handleAdd = () => {
+    addItem(input);
     setInput("");
   };
 
-  const toggleItem = (id: string) => {
-    setItems((prev) =>
-      prev.map((item) =>
-        item.id === id ? { ...item, done: !item.done } : item,
-      ),
-    );
-  };
-
-  const removeItem = (id: string) => {
-    setItems((prev) => prev.filter((item) => item.id !== id));
-  };
-
-  const clearDone = () => {
-    setItems((prev) => prev.filter((item) => !item.done));
-  };
-
-  const doneCount = items.filter((i) => i.done).length;
+  // 날짜, 요일!
+  const today = new Date();
+  const days = ["일", "월", "화", "수", "목", "금", "토"];
+  const dateString = `${today.getMonth() + 1}월 ${today.getDate()}일 ${days[today.getDay()]}요일`;
 
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.container}>
-        {/* 네이비 헤더 */}
         <View style={styles.header}>
           <Text style={styles.headerLabel}>MY TODOLIST</Text>
           <Text style={styles.headerTitle}>할 일 목록</Text>
@@ -58,30 +37,32 @@ export default function Week3Screen() {
           </Text>
         </View>
 
-        {/* 입력창 */}
+        <Text style={styles.dateText}>{dateString}</Text>
+
         <View style={styles.inputRow}>
           <TextInput
             value={input}
             onChangeText={setInput}
-            onSubmitEditing={addItem}
+            onSubmitEditing={handleAdd}
             placeholder="항목을 입력하세요"
             placeholderTextColor={colors.blueLight}
             style={styles.input}
           />
-          <TouchableOpacity onPress={addItem} style={styles.addButton}>
+          <TouchableOpacity onPress={handleAdd} style={styles.addButton}>
             <Text style={styles.addButtonText}>추가</Text>
           </TouchableOpacity>
         </View>
 
-        {/* 목록 */}
         <FlatList
           data={items}
           keyExtractor={(item) => item.id}
           contentContainerStyle={styles.listContent}
           ItemSeparatorComponent={() => <View style={styles.separator} />}
+          ListEmptyComponent={() => (
+            <Text style={styles.emptyText}>할 일을 입력하세요 ✍️</Text>
+          )}
           renderItem={({ item }) => (
             <View style={styles.listItem}>
-              {/* 체크 버튼 */}
               <TouchableOpacity
                 onPress={() => toggleItem(item.id)}
                 style={[
@@ -95,7 +76,6 @@ export default function Week3Screen() {
                 {item.done && <Text style={styles.checkText}>✓</Text>}
               </TouchableOpacity>
 
-              {/* 텍스트 */}
               <Text
                 style={[
                   styles.itemText,
@@ -108,18 +88,42 @@ export default function Week3Screen() {
                 {item.text}
               </Text>
 
-              {/* 삭제 버튼 */}
-              <TouchableOpacity onPress={() => removeItem(item.id)}>
+              <TouchableOpacity
+                onPress={() => {
+                  if (!item.done) {
+                    Alert.alert(
+                      "아직 완료하지 않았어요🤔",
+                      `'${item.text}'를 정말 삭제하시겠습니까?`,
+                      [
+                        { text: "아니오", style: "cancel" },
+                        { text: "예", onPress: () => removeItem(item.id) },
+                      ],
+                    );
+                  } else {
+                    removeItem(item.id);
+                  }
+                }}
+              >
                 <Text style={styles.deleteButton}>×</Text>
               </TouchableOpacity>
             </View>
           )}
         />
 
-        {/* 하단 바 */}
         {items.length > 0 && (
           <View style={styles.footer}>
-            <TouchableOpacity onPress={clearDone}>
+            <TouchableOpacity
+              onPress={() => {
+                Alert.alert(
+                  "수고했어요!🥳",
+                  "완료된 할 일을 모두 삭제하시겠습니까?",
+                  [
+                    { text: "아니오", style: "cancel" },
+                    { text: "예", onPress: clearDone },
+                  ],
+                );
+              }}
+            >
               <Text style={styles.clearButton}>완료 삭제</Text>
             </TouchableOpacity>
           </View>
