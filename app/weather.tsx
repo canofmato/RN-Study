@@ -16,10 +16,8 @@ export default function WeatherScreen() {
   const [loading, setLoading] = useState(true);
   const [inputText, setInputText] = useState("");
 
-  // 1. 발급받은 API 키를 여기에 넣으세요!
-  const API_KEY = "17c08d17f178e9ad4c4dffae347a5753";
+  const API_KEY = process.env.EXPO_PUBLIC_WEATHER_API_KEY;
 
-  // 2. 날씨 데이터를 가져오는 함수 (도시 이름을 인자로 받음)
   const fetchWeather = async (cityName: string) => {
     setLoading(true);
     try {
