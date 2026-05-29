@@ -6,6 +6,7 @@ const PROJECTS = [
   { id: "week2" as const, title: "인스타그램 레이아웃" },
   { id: "week3" as const, title: "할 일 목록 만들기" },
   { id: "week5" as const, title: "API 관련 실습" },
+  { id: "week8" as const, title: "환경 변수 관리 및 배포 프로세스" },
 ];
 
 export default function HomeScreen() {
