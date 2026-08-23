@@ -16,6 +16,8 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { Swipeable } from 'react-native-gesture-handler';
+import Animated, { FadeIn, FadeOutLeft, LinearTransition } from 'react-native-reanimated';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -69,28 +71,49 @@ export default function WishlistScreen() {
     }
   };
 
-  const renderItem = ({ item }: { item: WishlistItem }) => (
+  const renderDeleteAction = (item: WishlistItem) => (
     <TouchableOpacity
-      style={styles.itemCard}
-      onPress={() =>
-        router.push({
-          pathname: '/wish/[id]',
-          params: { id: item.id },
-        })
-      }
-      onLongPress={() => {
-        Alert.alert('삭제', `'${item.title}'을(를) 삭제하시겠어요?`, [
-          { text: '취소', onPress: () => {}, style: 'cancel' },
-          { text: '삭제', onPress: () => deleteItem(item.id), style: 'destructive' },
-        ]);
-      }}>
-      <TouchableOpacity 
-        style={styles.checkBox}
-        onPress={() => toggleCheck(item.id)}>
-        {item.checked && <View style={styles.checkMark} />}
-      </TouchableOpacity>
-      <Text style={styles.itemTitle}>{item.title}</Text>
+      activeOpacity={0.85}
+      style={styles.deleteAction}
+      onPress={() => deleteItem(item.id)}>
+      <Text style={styles.deleteActionText}>삭제</Text>
     </TouchableOpacity>
+  );
+
+  const renderItem = ({ item, index }: { item: WishlistItem; index: number }) => (
+    <Animated.View
+      entering={FadeIn.delay(Math.min(index * 40, 120)).duration(180)}
+      exiting={FadeOutLeft.duration(180)}
+      layout={LinearTransition.duration(160)}
+      style={styles.swipeRow}>
+      <Swipeable
+        overshootRight={false}
+        rightThreshold={36}
+        renderRightActions={() => renderDeleteAction(item)}>
+        <TouchableOpacity
+          activeOpacity={0.75}
+          style={styles.itemCard}
+          onPress={() =>
+            router.push({
+              pathname: '/wish/[id]',
+              params: { id: item.id },
+            })
+          }
+          onLongPress={() => {
+            Alert.alert('삭제', `'${item.title}'을(를) 삭제하시겠어요?`, [
+              { text: '취소', onPress: () => {}, style: 'cancel' },
+              { text: '삭제', onPress: () => deleteItem(item.id), style: 'destructive' },
+            ]);
+          }}>
+          <TouchableOpacity
+            style={styles.checkBox}
+            onPress={() => toggleCheck(item.id)}>
+            {item.checked && <View style={styles.checkMark} />}
+          </TouchableOpacity>
+          <Text style={styles.itemTitle}>{item.title}</Text>
+        </TouchableOpacity>
+      </Swipeable>
+    </Animated.View>
   );
 
   return (
@@ -112,7 +135,7 @@ export default function WishlistScreen() {
         scrollEnabled={true}
       />
 
-      <View style={styles.catContainer}>
+      <View pointerEvents="none" style={styles.catContainer}>
         <Image
           source={require('@/assets/images/black_cat.png')}
           style={styles.catImage}
@@ -154,6 +177,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     paddingTop: 40,
     paddingBottom: 30,
+    zIndex: 1,
   },
   headerTitle: {
     fontFamily: 'island-moments',
@@ -164,18 +188,37 @@ const styles = StyleSheet.create({
   },
   list: {
     flex: 1,
+    zIndex: 1,
   },
   listContent: {
     paddingHorizontal: 24,
     paddingTop: 12,
     paddingBottom: 112,
-    gap: 16,
+  },
+  swipeRow: {
+    marginBottom: 16,
+    overflow: 'hidden',
+    borderRadius: 8,
   },
   itemCard: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 12,
     paddingVertical: 8,
+  },
+  deleteAction: {
+    width: 76,
+    minHeight: 40,
+    marginLeft: 12,
+    borderRadius: 8,
+    backgroundColor: '#FF4D6D',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  deleteActionText: {
+    color: '#FFF',
+    fontFamily: 'gaegu',
+    fontSize: 18,
   },
   checkBox: {
     width: 24,
@@ -205,6 +248,7 @@ const styles = StyleSheet.create({
     left: -48,
     width: 240,
     height: 240,
+    zIndex: 0,
   },
   catImage: {
     width: 240,
@@ -220,6 +264,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     gap: 12,
     alignItems: 'center',
+    zIndex: 2,
   },
   input: {
     flex: 1,

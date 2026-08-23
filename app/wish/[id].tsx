@@ -40,7 +40,7 @@ export default function WishDetailScreen() {
         />
       </View>
 
-      <View style={styles.catContainer}>
+      <View pointerEvents="none" style={styles.catContainer}>
         <Image
           source={require('@/assets/images/black_cat.png')}
           style={styles.catImage}
@@ -65,6 +65,7 @@ const styles = StyleSheet.create({
     paddingTop: 40,
     paddingBottom: 8,
     alignSelf: 'flex-start',
+    zIndex: 1,
   },
   backButtonText: {
     color: '#FFF',
@@ -76,6 +77,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     paddingTop: 20,
     paddingBottom: 56,
+    zIndex: 1,
   },
   title: {
     color: '#FFF',
@@ -99,6 +101,7 @@ const styles = StyleSheet.create({
     left: -48,
     width: 240,
     height: 240,
+    zIndex: 0,
   },
   catImage: {
     width: 240,
