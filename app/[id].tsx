@@ -4,6 +4,7 @@ import { Text, View } from "react-native";
 import Week2 from "../components/week2";
 import Week3 from "../components/week3";
 import Week5 from "../components/week5";
+import Week8 from "../components/week8";
 
 export default function DetailGate() {
   const { id } = useLocalSearchParams();
@@ -17,6 +18,8 @@ export default function DetailGate() {
         return <Week3 />;
       case "week5":
         return <Week5 />;
+      case "week8":
+        return <Week8 />;
       default:
         return (
           <View
